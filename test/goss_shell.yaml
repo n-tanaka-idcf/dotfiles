@@ -1,0 +1,21 @@
+---
+command:
+  fish:
+    exec: fish --version
+    exit-status: 0
+
+  sheldon:
+    exec: sheldon version
+    exit-status: 0
+
+  starship:
+    exec: starship --version
+    exit-status: 0
+
+  zoxide:
+    exec: zoxide --version
+    exit-status: 0
+
+  zsh:
+    exec: zsh --version
+    exit-status: 0

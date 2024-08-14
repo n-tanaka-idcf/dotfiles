@@ -1,0 +1,10 @@
+/.devcontainer
+/README.md
+/docs
+/install.sh
+/test
+/fonts
+/tmp
+/utils
+/Taskfile.yaml
+/provision

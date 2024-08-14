@@ -1,0 +1,319 @@
+# shellcheck disable=all
+# ------------------------------------------------------------------------------
+# Common environment variables
+# ------------------------------------------------------------------------------
+typeset -U path PATH
+path=(
+  ~/.local/bin
+  $path
+)
+
+fpath=(
+  ~/.zsh/functions
+  $fpath
+)
+
+export WORDCHARS='*?_.[]~-=&;!#$%^(){}<>'
+export EDITOR='nvim'
+export XDG_CONFIG_HOME="${HOME}/.config"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# ------------------------------------------------------------------------------
+# Keybindings
+# ------------------------------------------------------------------------------
+stty stop undef
+
+bindkey -e
+
+# ------------------------------------------------------------------------------
+# Aliases
+# ------------------------------------------------------------------------------
+alias g='git'
+alias k='kubectl'
+alias l='exa -l -g --icons --git'
+alias la='exa -l -a --icons --git'
+alias lt='exa -l -t changed -snew --icons --git'
+alias n='nvim'
+alias tree='exa -T -a -I ".git" --icons'
+
+alias -g J='| jq'
+alias -g G='| rg -i'
+
+# ------------------------------------------------------------------------------
+# Completions
+# ------------------------------------------------------------------------------
+autoload -Uz +X bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
+
+# Zsh-autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=grey,bg=grey,bold,underline"
+
+# Fzf-tab
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':fzf-tab:*' fzf-pad 4
+
+# ------------------------------------------------------------------------------
+# History
+# ------------------------------------------------------------------------------
+# Set a file name that histories are saved
+export HISTFILE=~/.zsh_history
+
+# Set the number of histories are saved
+export HISTSIZE=1000000 # In memory
+export SAVEHIST=1000000 # In $HISTFILE
+
+# Save history with beginning timestamp and elapsed time
+setopt extended_history
+
+# Share histories among zsh sessions
+setopt share_history
+
+# Don't save duplicated history
+setopt hist_ignore_all_dups
+
+# Don't save history in starting with a white space
+setopt hist_ignore_space
+
+# Trim needless white spaces
+setopt hist_reduce_blanks
+
+# Don't save histories with history command
+setopt hist_no_store
+
+# ------------------------------------------------------------------------------
+#  Appimage
+# ------------------------------------------------------------------------------
+if [[ -e /.dockerenv ]]; then
+  export APPIMAGE_EXTRACT_AND_RUN=1
+fi
+
+# ------------------------------------------------------------------------------
+#  Chezmoi
+# ------------------------------------------------------------------------------
+eval "$(chezmoi completion zsh)"
+
+# ------------------------------------------------------------------------------
+# Direnv
+# ------------------------------------------------------------------------------
+eval "$(direnv hook zsh)"
+
+# ------------------------------------------------------------------------------
+# Fzf
+# ------------------------------------------------------------------------------
+export FZF_DEFAULT_OPTS="\
+         --border \
+         --cycle \
+         --height 50% \
+         --reverse \
+         --bind=ctrl-k:kill-line"
+
+function _fzf_filter_command_histories() {
+  BUFFER=$(history -n -r 1 | fzf --no-sort --query="$LBUFFER")
+  CURSOR=$#BUFFER
+  zle reset-prompt
+}
+zle -N _fzf_filter_command_histories
+bindkey '^r' _fzf_filter_command_histories
+
+function _fzf_filter_files() {
+  BUFFER="${LBUFFER}$(
+    fd --type f --hidden --exclude=".git" |
+      fzf --preview "bat --color=always --style=header,grid --line-range :100 {}"
+  )"
+  CURSOR=$#BUFFER
+  zle reset-prompt
+}
+zle -N _fzf_filter_files
+bindkey '^s^f' _fzf_filter_files
+
+function _fzf_filter_dirs() {
+  BUFFER="${LBUFFER}$(fd --type d --hidden --exclude=".git" | fzf)"
+  CURSOR=$#BUFFER
+  zle reset-prompt
+}
+zle -N _fzf_filter_dirs
+bindkey '^s^d' _fzf_filter_dirs
+
+function ghqcd() {
+  local repo=$(ghq list | fzf)
+  if [ -n "$repo" ]; then
+    cd "$(ghq root)/$repo"
+  fi
+}
+
+function rgv() {
+  if [ $# -eq 0 ]; then
+    echo 'Usage: rgv <search_string> [search_dir]'
+    return 1
+  fi
+
+  search_string=$1
+  search_dir=${2:-.}
+
+  search_result=$(
+    rg --smart-case --vimgrep $search_string $search_dir |
+      fzf --delimiter=':' \
+        --preview='bat --color=always {1} -H {2}' \
+        --preview-window='down,+{2}+3/2'
+  )
+
+  if [ "$search_result" != '' ]; then
+    file_path=$(echo $search_result | awk -F':' '{print $1}')
+    line_number=$(echo $search_result | awk -F':' '{print $2}')
+    column_number=$(echo $search_result | awk -F':' '{print $3}')
+  else
+    return
+  fi
+
+  nvim $file_path "+call cursor($line_number, $column_number)" "+set hlsearch | let @/ = \"$search_string\""
+}
+
+function fdv() {
+  file_path=$(
+    fd --type f --hidden |
+      fzf --preview='bat --color=always {1}' \
+        --preview-window='down,+{2}+3/2'
+  )
+  nvim $file_path
+}
+
+function get_gh_latest_release() {
+  if [ ! $# -eq 1 ]; then
+    echo 'Need a repo URL!'
+    echo 'Usage: get-gh-latest-release https://github.com/<repo_name>'
+    return 1
+  fi
+
+  repo_name=$(echo $1 | cut -d'/' -f4-)
+
+  download_url=$(
+    curl -L "https://api.github.com/repos/${repo_name}/releases/latest" |
+      jq -r '.assets[].browser_download_url' |
+      fzf
+  )
+
+  file_name=$(basename $download_url)
+  curl -L "$download_url" >$file_name
+}
+
+function gco() {
+  git branch --list |
+    cut -c 3- |
+    fzf --preview "git log --pretty=format:'%h %cd %s' --date=format:'%Y-%m-%d %H:%M' {}" |
+    xargs git checkout
+}
+
+# ------------------------------------------------------------------------------
+# Helm
+# ------------------------------------------------------------------------------
+source <(helm completion zsh)
+
+# ------------------------------------------------------------------------------
+# Helmfile
+# ------------------------------------------------------------------------------
+source <(helmfile completion zsh)
+
+# ------------------------------------------------------------------------------
+# Kubectl
+# ------------------------------------------------------------------------------
+source <(kubectl completion zsh)
+
+# ------------------------------------------------------------------------------
+# Shelldon
+# ------------------------------------------------------------------------------
+eval "$(sheldon source)"
+eval "$(sheldon completions --shell zsh)"
+
+# ------------------------------------------------------------------------------
+# Starship
+# ------------------------------------------------------------------------------
+# eval "$(starship init zsh)"
+# eval "$(starship completions zsh)"
+
+# ------------------------------------------------------------------------------
+# Tmux
+# ------------------------------------------------------------------------------
+# Start the tmux session if not alraedy in the tmux session
+if [[ ! -n "$TMUX" ]]; then
+  # Get the session IDs
+  session_ids="$(tmux list-sessions)"
+
+  # Create new session if no sessions exist
+  [[ -z "$session_ids" ]] && tmux new-session
+
+  # Select from following choices
+  #   - Attach existing session
+  #   - Create new session
+  #   - Start without tmux
+  create_new_session="Create new session"
+  start_without_tmux="Start without tmux"
+  choices="$session_ids\n${create_new_session}:\n${start_without_tmux}:"
+  choice="$(echo $choices | fzf | cut -d: -f1)"
+
+  if expr "$choice" : "[0-9]*$" >&/dev/null; then
+    # Attach existing session
+    tmux attach-session -t "$choice"
+  elif [[ "$choice" = "${create_new_session}" ]]; then
+    # Create new session
+    tmux new-session
+  elif [[ "$choice" = "${start_without_tmux}" ]]; then
+    # Start without tmux
+    :
+  fi
+fi
+
+# ------------------------------------------------------------------------------
+# Zellij
+# ------------------------------------------------------------------------------
+# eval "$(zellij setup --generate-auto-start zsh)"
+
+# ------------------------------------------------------------------------------
+# Zoxide
+# ------------------------------------------------------------------------------
+eval "$(zoxide init zsh)"
+
+function execute_zoxide() {
+  __zoxide_zi
+  zle accept-line
+}
+zle -N execute_zoxide
+bindkey '^j' execute_zoxide
+
+# ------------------------------------------------------------------------------
+# Zsh vi mode
+# ------------------------------------------------------------------------------
+function zvm_config() {
+  ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+  ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
+}
+
+function zvm_after_init() {
+  zvm_bindkey viins '^R' _fzf_filter_command_histories
+  zvm_bindkey viins '^S^F' _fzf_filter_files
+  zvm_bindkey viins '^S^D' _fzf_filter_dirs
+  zvm_bindkey viins '^J' execute_zoxide
+}
+
+# ------------------------------------------------------------------------------
+# Bat
+# ------------------------------------------------------------------------------
+alias bathelp='bat --plain --language=help'
+help() {
+  "$@" --help 2>&1 | bathelp
+}
+
+# ------------------------------------------------------------------------------
+# Powerlevel10k
+# ------------------------------------------------------------------------------
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

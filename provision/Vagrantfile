@@ -1,0 +1,32 @@
+vm_spec = {
+  name: "dotfiles-rocky9-01",
+  box: "generic/rocky9",
+  cpu: 4,
+  mem: 16384,
+  private_ip: "192.168.3.11",
+}
+
+Vagrant.configure("2") do |config|
+  config.ssh.insert_key = false
+  config.ssh.private_key_path = "~/.vagrant.d/insecure_private_key"
+  config.ssh.forward_agent = true
+
+  config.vm.define vm_spec[:name] do |host|
+    host.vm.hostname = vm_spec[:name]
+    host.vm.box = vm_spec[:box]
+    host.vm.network :private_network, ip: vm_spec[:private_ip]
+    host.vm.provider "virtualbox" do |vbox|
+      vbox.gui = false
+      vbox.cpus = vm_spec[:cpu]
+      vbox.memory = vm_spec[:mem]
+    end
+    host.vm.provision "shell", inline: <<-SHELL
+      dnf update -y
+      dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin --allowerasing
+      systemctl enable docker.service
+      systemctl start docker.service
+      usermod -aG docker vagrant
+    SHELL
+  end
+end

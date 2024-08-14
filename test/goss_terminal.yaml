@@ -1,0 +1,9 @@
+---
+command:
+  tmux:
+    exec: tmux -V
+    exit-status: 0
+
+  zellij:
+    exec: zellij --version
+    exit-status: 0

@@ -1,0 +1,26 @@
+name: Test dotfiles deployments
+
+on: [push]
+
+jobs:
+  test_dotfiles_deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy dotfiles
+        run: ./install.sh
+
+      - name: Test dotfiles deployment
+        run: cd test; goss validate -f junit > /tmp/goss_validate.xml
+
+      - name: Publish test report
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure()
+        with:
+          report_paths: /tmp/goss_validate.xml
+          check_name: Goss test report
+          include_passed: true
+          annotate_only: true
+          detailed_summary: true

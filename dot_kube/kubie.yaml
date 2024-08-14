@@ -1,0 +1,10 @@
+---
+prompt:
+  disable: true
+
+hooks:
+  start_ctx: >
+    echo "Switching the context to `kubie info ctx`|`kubie info ns`"
+
+  stop_ctx: >
+    echo "Switching the context from `kubie info ctx`|`kubie info ns`"

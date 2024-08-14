@@ -1,0 +1,26 @@
+[user]
+    name = {{ .name }}
+    email = {{ .email }}
+
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    light = false
+
+[merge]
+    conflictstyle = diff3
+    ff = false
+
+[diff]
+    colorMoved = default
+
+[pull]
+    ff = only
+
+# [url "git@github.com:"]
+#     insteadOf = https://github.com/
