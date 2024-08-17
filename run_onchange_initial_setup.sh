@@ -50,8 +50,8 @@ manage_os_packages
 # Tmux plugin manager
 if [[ ! -e ~/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  # TODO: Investigate how to install plugins automatically
-  # env TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins ~/.tmux/plugins/tpm/bin/install_plugins
+  [[ -e /.dockerenv ]] && export APPIMAGE_EXTRACT_AND_RUN=1
+  ~/.tmux/plugins/tpm/bin/install_plugins
 fi
 
 # -----------------------------------------------------------------------------
