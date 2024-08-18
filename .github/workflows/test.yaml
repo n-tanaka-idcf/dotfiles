@@ -1,6 +1,6 @@
 name: Test dotfiles deployments
 
-on: [push]
+on: [pull_request]
 
 jobs:
   test_dotfiles_deployment:
