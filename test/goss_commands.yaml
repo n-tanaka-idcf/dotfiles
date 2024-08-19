@@ -96,6 +96,10 @@ command:
     exec: lazydocker --version
     exit-status: 0
 
+  lazygit:
+    exec: lazygit --version
+    exit-status: 0
+
   rg:
     exec: rg --version
     exit-status: 0
