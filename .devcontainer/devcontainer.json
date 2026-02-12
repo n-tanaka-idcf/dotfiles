@@ -1,0 +1,49 @@
+{
+  "name": "dotfiles-development",
+  "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu-24.04",
+  "containerEnv": {
+    "TZ": "Asia/Tokyo"
+  },
+  "onCreateCommand": "${containerWorkspaceFolder}/install.sh",
+  "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // Editor
+        "editor.fontFamily": "'Monaspace Krypton', monospace",
+        "editor.formatOnSave": true,
+        // Files
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "files.trimTrailingWhitespace": true,
+        // Terminal
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        // Shell script
+        "[shellscript]": {
+          "editor.defaultFormatter": "foxundermoon.shell-format"
+        }
+      },
+      "extensions": [
+        // Github actions
+        "github.vscode-github-actions",
+        // Shell script
+        "foxundermoon.shell-format",
+        "mads-hartmann.bash-ide-vscode",
+        "timonwong.shellcheck",
+        // Toml
+        "tamasfe.even-better-toml"
+        // Docker
+        // "ms-azuretools.vscode-docker",
+        // Git
+        // "eamodio.gitlens",
+        // Json
+        // "esbenp.prettier-vscode",
+        // Nushell
+        // "thenuprojectcontributors.vscode-nushell-lang",
+      ]
+    }
+  }
+}

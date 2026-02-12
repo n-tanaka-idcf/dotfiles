@@ -1,0 +1,12 @@
+---
+creation_rules:
+  # TODO: Add path settings
+  - age: age12uf908hyyt6erlwwzmpmmftmd8ac5gcjyzqj648hy9jufxlsad7quflkzs
+
+stores:
+  json:
+    indent: 4
+  json_binary:
+    indent: 4
+  yaml:
+    indent: 2

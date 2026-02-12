@@ -1,0 +1,6 @@
+---
+gossfile:
+  goss_terminal.yaml: {}
+  goss_shell.yaml: {}
+  goss_editor.yaml: {}
+  goss_commands.yaml: {}

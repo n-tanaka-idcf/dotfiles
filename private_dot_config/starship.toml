@@ -1,0 +1,75 @@
+# Color codes
+# Fluorescent Red: #FF0066
+# Fluorescent Orange: #FF9900
+# Fluorescent Yellow: #FFFF33
+# Fluorescent Green: #33FF33
+# Fluorescent Blue: #0099FF
+# Fluorescent Indigo: #6600CC
+# Fluorescent Violet: #CC00FF
+
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$os\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$docker_context\
+$kubernetes\
+$python\
+$line_break\
+$character
+"""
+
+[os]
+disabled = false
+style = " #FF0066"
+
+[username]
+format = '[$user]($style)'
+show_always = true
+style_user = " #FF0066"
+
+[hostname]
+format = '[@$hostname ]($style)'
+ssh_only = false
+style = " #FF0066"
+
+[directory]
+format = "[📁 $path ]($style)"
+style = " #FF9900"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+format = '[$symbol$branch ]($style)'
+style = " #FFFF33"
+
+[git_status]
+style = " #FFFF33"
+format = '[ $all_status $ahead_behind ]($style)'
+ahead = "⬆${count}(underline #FFFF33)"
+behind = "⬇${count}(underline #FFFF33)"
+conflicted = "[x](underline #FFFF33)"
+diverged = "${ahead_count}/${behind_count}(underline #FFFF33)"
+modified = "[*](underline #FFFF33)"
+staged = "[+](underline #FFFF33)"
+untracked = "[?](underline #FFFF33)"
+
+[docker_context]
+style = "#33FF33"
+format = '[$symbol$context ]($style)'
+
+[kubernetes]
+disabled = false
+style = "#33FF33"
+# format = '[$symbol$context(\($namespace\))]($style)'
+format = '[$symbol ($namespace@)$cluster]($style)'
+detect_env_vars = ["KUBECONFIG"]
+
+[python]
+style = "#0099FF"
+format = '[${symbol}${pyenv_prefix}(${version})(\($virtualenv\)) ]($style)'

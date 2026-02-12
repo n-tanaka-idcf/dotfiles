@@ -1,0 +1,5 @@
+---
+command:
+  nvim:
+    exec: nvim --version
+    exit-status: 0

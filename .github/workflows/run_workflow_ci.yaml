@@ -1,0 +1,29 @@
+name: run_workflow_ci
+
+on:
+  push:
+    paths:
+      - .github/workflows/*.yml
+      - .github/workflows/*.yaml
+
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  run_actionlint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Check workflow files
+        uses: docker://rhysd/actionlint:latest
+        with:
+          args: -color

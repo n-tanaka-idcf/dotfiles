@@ -1,0 +1,133 @@
+---
+command:
+  act:
+    exec: act --version
+    exit-status: 0
+
+  age:
+    exec: age --help
+    exit-status: 0
+
+  age-keygen:
+    exec: age-keygen --help
+    exit-status: 0
+
+  aqua:
+    exec: aqua --version
+    exit-status: 0
+
+  atuin:
+    exec: aqua --version
+    exit-status: 0
+
+  bat:
+    exec: bat --version
+    exit-status: 0
+
+  delta:
+    exec: delta --version
+    exit-status: 0
+
+  direnv:
+    exec: direnv --version
+    exit-status: 0
+
+  exa:
+    exec: exa --version
+    exit-status: 0
+
+  fd:
+    exec: fd --version
+    exit-status: 0
+
+  fzf:
+    exec: fzf --version
+    exit-status: 0
+
+  gcc:
+    exec: gcc --version
+    exit-status: 0
+
+  gh:
+    exec: gh --version
+    exit-status: 0
+
+  ghq:
+    exec: ghq --version
+    exit-status: 0
+
+  git:
+    exec: git --version
+    exit-status: 0
+
+  goss:
+    exec: goss --version
+    exit-status: 0
+
+  hadolint:
+    exec: hadolint --version
+    exit-status: 0
+
+  helm:
+    exec: helm version
+    exit-status: 0
+
+  helmfile:
+    exec: helmfile version
+    exit-status: 0
+
+  jnv:
+    exec: jnv --version
+    exit-status: 0
+
+  jq:
+    exec: jq --version
+    exit-status: 0
+
+  k9s:
+    exec: k9s version
+    exit-status: 0
+
+  kind:
+    exec: kind
+    exit-status: 0
+
+  kubectl:
+    exec: kubectl
+    exit-status: 0
+
+  kubectx:
+    exec: kubectx --version
+    exit-status: 0
+
+  kubens:
+    exec: kubectx --version
+    exit-status: 0
+
+  kubie:
+    exec: kubie --version
+    exit-status: 0
+
+  lazydocker:
+    exec: lazydocker --version
+    exit-status: 0
+
+  rg:
+    exec: rg --version
+    exit-status: 0
+
+  sops:
+    exec: sops --version
+    exit-status: 0
+
+  talosctl:
+    exec: talosctl help
+    exit-status: 0
+
+  task:
+    exec: task --version
+    exit-status: 0
+
+  yq:
+    exec: yq --version
+    exit-status: 0

@@ -1,0 +1,14 @@
+---
+version: "3"
+
+tasks:
+  apply:
+    cmds:
+      - chezmoi apply --source . --verbose
+  diff:
+    cmds:
+      - chezmoi apply --source . --verbose --dry-run
+  test:
+    cmds:
+      - goss validate
+    dir: test
