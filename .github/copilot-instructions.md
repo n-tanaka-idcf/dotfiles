@@ -3,7 +3,7 @@
 ## 全体像
 - このリポジトリは **chezmoi** で管理する個人用 dotfiles です（[README.md](../README.md) 参照）。
 - ファイルは chezmoi の命名規則に従います:
-  - `dot_*` → `~/.…`（例: `dot_zshrc` → `~/.zshrc`）
+  - `dot_*` → `~/.*`（例: `dot_zshrc` → `~/.zshrc`）
   - `private_dot_config/**` → `~/.config/**`
   - `private_dot_local/**` → `~/.local/**`
   - `*.tmpl` は chezmoi がレンダリングする Go テンプレートです
@@ -28,7 +28,7 @@
 - 暗号化ファイルを追加・変更する場合は、SOPS の設定整合性を崩さないでください。
 
 ## 開発ワークフロー（このコマンドを使う）
-- ローカルへの適用: `./install.sh`（必要なら chezmoi をインストールし、その後 `chezmoi init --apply --source=…` を実行）。
+- ローカルへの適用: `./install.sh`（必要なら chezmoi をインストールし、その後 `chezmoi init --apply --source=.` を実行）。
 - よく使う Task:
   - `task diff` → `chezmoi apply --dry-run`
   - `task apply` → `chezmoi apply`
