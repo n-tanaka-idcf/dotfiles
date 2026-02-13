@@ -7,8 +7,8 @@ manage_os_packages() {
   if (type 'apt-get' >/dev/null 2>&1); then
     # Debian variants
 
-    # sudo apt-get update
-    # sudo apt-get upgrade -y
+    sudo apt-get update
+    sudo apt-get upgrade -y
 
     packages=(
       fuse

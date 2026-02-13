@@ -1,6 +1,12 @@
 {
   "name": "ubuntu",
-  "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu-24.04",
+  "dockerComposeFile": [
+    "../compose.yml"
+  ],
+  "service": "ubuntu",
+  "runServices": [
+    "ubuntu"
+  ],
   "containerEnv": {
     "DEVCONTAINER_NAME": "ubuntu",
     "DEVCONTAINER_USER": "vscode",
@@ -8,6 +14,8 @@
     "LC_ALL": "C.UTF-8",
     "TZ": "Asia/Tokyo"
   },
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspace",
   "onCreateCommand": "${containerWorkspaceFolder}/install.sh",
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
