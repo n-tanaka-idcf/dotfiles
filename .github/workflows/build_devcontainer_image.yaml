@@ -50,7 +50,6 @@ jobs:
         with:
           configFile: .devcontainer/${{ matrix.devcontainer }}/devcontainer.json
           push: never
-          # runCmd: |
-          #   cd /workspace
-          #   zsh
-          #   task test
+          runCmd: |
+            cd /workspace
+            zsh -lc 'task test'
