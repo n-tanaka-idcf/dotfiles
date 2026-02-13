@@ -1,0 +1,13 @@
+---
+services:
+  ubuntu:
+    build:
+      context: ubuntu/
+      dockerfile: Dockerfile
+      args:
+        - UID
+        - GID
+    tty: true
+    stdin_open: true
+    volumes:
+      - ../:/workspace
