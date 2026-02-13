@@ -38,14 +38,19 @@ jobs:
         with:
           dockerfile: .devcontainer/${{ matrix.devcontainer }}/Dockerfile
 
-      # - name: Create the .env file
-      #   run: |
-      #     cat <<EOF > .devcontainer/.env
-      #     UID=$(id -u)
-      #     GID=$(id -g)
-      #     EOF
+      - name: Create .env file
+        run: |
+          cat <<EOF > .devcontainer/.env
+          UID=$(id -u)
+          GID=$(id -g)
+          EOF
 
       - name: Build devcontainer image
         uses: devcontainers/ci@v0.3
         with:
           configFile: .devcontainer/${{ matrix.devcontainer }}/devcontainer.json
+          push: never
+          # runCmd: |
+          #   cd /workspace
+          #   zsh
+          #   task test
