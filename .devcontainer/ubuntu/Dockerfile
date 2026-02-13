@@ -7,7 +7,7 @@ ARG GID=1000
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    bash-completion \
+    bash-completion=1:2.11* \
     sudo=1.9* && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
