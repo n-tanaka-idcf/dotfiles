@@ -9,6 +9,5 @@ services:
         - GID
     tty: true
     stdin_open: true
-    restart: always
     volumes:
       - ../:/workspace

@@ -12,6 +12,8 @@ jobs:
 
       - name: Deploy dotfiles
         run: ./install.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install zsh plugins
         run: source ~/.zshrc
