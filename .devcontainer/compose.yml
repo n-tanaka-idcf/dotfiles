@@ -1,0 +1,15 @@
+---
+services:
+  ubuntu:
+    build:
+      context: ubuntu/
+      dockerfile: Dockerfile
+      args:
+        UID: ${CONTAINER_UID:?Set CONTAINER_UID in .devcontainer/.env (see .env.example)}
+        GID: ${CONTAINER_GID:?Set CONTAINER_GID in .devcontainer/.env (see .env.example)}
+        USER: ${CONTAINER_USER:?Set CONTAINER_USER in .devcontainer/.env (see .env.example)}
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    volumes:
+      - ../:/workspace

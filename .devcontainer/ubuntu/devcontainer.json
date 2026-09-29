@@ -1,0 +1,75 @@
+{
+  "name": "ubuntu",
+  "dockerComposeFile": [
+    "../compose.yml"
+  ],
+  "service": "ubuntu",
+  "runServices": [
+    "ubuntu"
+  ],
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/misc/claude",
+    "DEVCONTAINER_NAME": "ubuntu",
+    "EDITOR": "code --wait",
+    "GH_CONFIG_DIR": "/misc/gh"
+  },
+  "workspaceFolder": "/workspace",
+  "mounts": [
+    {
+      "type": "volume",
+      "source": "misc",
+      "target": "/misc"
+    }
+  ],
+  "postCreateCommand": "bash -c './.devcontainer/$DEVCONTAINER_NAME/postCreateCommand.sh'",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/dhoeric/features/hadolint:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // Editor
+        "editor.formatOnSave": true,
+        // Files
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "files.trimTrailingWhitespace": true,
+        // Github Actions
+        "[github-actions-workflow]": {
+          "editor.tabSize": 2,
+          "editor.defaultFormatter": "redhat.vscode-yaml"
+        },
+        // Redhat
+        "redhat.telemetry.enabled": false,
+        // Shell script
+        "[shellscript]": {
+          "editor.defaultFormatter": "foxundermoon.shell-format"
+        },
+        // YAML
+        "[yaml]": {
+          "editor.tabSize": 2,
+          "editor.defaultFormatter": "redhat.vscode-yaml"
+        }
+      },
+      "extensions": [
+        // Claude Code
+        "anthropic.claude-code",
+        // Docker
+        "ms-azuretools.vscode-docker",
+        "exiasr.hadolint",
+        // Github actions
+        "github.vscode-github-actions",
+        // Shell script
+        "foxundermoon.shell-format",
+        "mads-hartmann.bash-ide-vscode",
+        "timonwong.shellcheck",
+        // Toml
+        "tamasfe.even-better-toml",
+        // YAML
+        "redhat.vscode-yaml"
+      ]
+    }
+  }
+}
