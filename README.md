@@ -33,7 +33,7 @@
 ### devcontainer の内容
 
 - ベースイメージ: `ubuntu:24.04`（TZ は `Asia/Tokyo`）
-- Features: docker-outside-of-docker, GitHub CLI, hadolint
+- Features: docker-outside-of-docker, GitHub CLI, sshd, hadolint
 - VS Code 拡張: Claude Code, Docker, GitHub Actions, シェルスクリプト、TOML、YAML 用の拡張
 - Claude Code と GitHub CLI の設定は名前付きボリューム `misc` の `/misc/claude`、`/misc/gh` に保存されるため、コンテナを再作成しても保持されます。
 
