@@ -6,6 +6,9 @@ on:
     paths:
       - .github/workflows/run_devcontainer_ci.yaml
       - .devcontainer/**
+      - .chezmoiroot
+      - home/**
+      - install.sh
   workflow_dispatch:
 
 defaults:
@@ -51,4 +54,5 @@ jobs:
           configFile: .devcontainer/${{ matrix.devcontainer }}/devcontainer.json
           push: never
           runCmd: |
+            chezmoi --version
             echo "${{ matrix.devcontainer }} has been built successfully"
