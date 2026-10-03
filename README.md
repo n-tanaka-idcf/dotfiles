@@ -17,7 +17,14 @@
 │       └── postCreateCommand.sh
 ├── .github/workflows/
 │   └── run_devcontainer_ci.yaml  # devcontainer のビルド CI
-└── CLAUDE.md                 # Claude Code 向けのリポジトリガイド
+├── home/                     # chezmoi で管理する dotfiles
+│   ├── dot_config/mise/config.toml                    # mise でインストールするツール
+│   ├── run_onchange_initial_setup.sh                  # OS パッケージと mise のインストール
+│   └── run_onchange_after_install_mise_tools.sh.tmpl  # mise install の実行
+├── .chezmoiroot              # chezmoi のソースディレクトリ（home/）の指定
+├── CLAUDE.md                 # Claude Code 向けのリポジトリガイド
+├── install.sh                # chezmoi のインストールと dotfiles の適用
+└── Taskfile.yml              # task コマンドのタスク定義
 ```
 
 ## 使い方
@@ -35,8 +42,27 @@
 - ベースイメージ: `ubuntu:24.04`（TZ は `Asia/Tokyo`）
 - Features: docker-outside-of-docker, GitHub CLI, sshd, hadolint
 - VS Code 拡張: Claude Code, Docker, GitHub Actions, シェルスクリプト、TOML、YAML 用の拡張
+- コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git）、mise、mise で管理するツール（task）がインストールされます。
 - Claude Code と GitHub CLI の設定は名前付きボリューム `misc` の `/misc/claude`、`/misc/gh` に保存されるため、コンテナを再作成しても保持されます。
+
+### ツールの追加
+
+mise で入れるツールは [home/dot_config/mise/config.toml](home/dot_config/mise/config.toml) の `[tools]` に追記します。次に `chezmoi apply` を実行すると `mise install` が実行されます。
+
+### タスク
+
+```bash
+task                    # タスクの一覧を表示
+task environment:check  # 必要なツールが利用可能か確認
+```
+
+`task` を使うにはシェルで mise を有効化する必要があります。有効化していない場合は `mise exec -- task` で実行します。
 
 ## CI
 
-`.devcontainer/**` またはワークフロー自体を変更した PR で、[run_devcontainer_ci.yaml](.github/workflows/run_devcontainer_ci.yaml) が devcontainer をビルドします。
+次のファイルを変更した PR で、[run_devcontainer_ci.yaml](.github/workflows/run_devcontainer_ci.yaml) が devcontainer をビルドし、`task environment:check` で必要なツールが揃っているか確認します。
+
+- `.devcontainer/**`
+- `.github/workflows/run_devcontainer_ci.yaml`
+- `.chezmoiroot`、`home/**`、`install.sh`
+- `Taskfile.yml`
