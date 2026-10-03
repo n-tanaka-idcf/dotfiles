@@ -13,6 +13,9 @@
     "EDITOR": "code --wait",
     "GH_CONFIG_DIR": "/misc/gh"
   },
+  "remoteEnv": {
+    "PATH": "/home/${containerEnv:USER}/.local/bin:${containerEnv:PATH}"
+  },
   "workspaceFolder": "/workspace",
   "mounts": [
     {
@@ -21,6 +24,7 @@
       "target": "/misc"
     }
   ],
+  "onCreateCommand": "${containerWorkspaceFolder}/install.sh",
   "postCreateCommand": "bash -c './.devcontainer/$DEVCONTAINER_NAME/postCreateCommand.sh'",
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
