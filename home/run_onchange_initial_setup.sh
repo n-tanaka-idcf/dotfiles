@@ -13,6 +13,7 @@ manage_os_packages() {
     sudo apt-get upgrade -y
 
     packages=(
+      curl
       git
     )
 
@@ -26,3 +27,17 @@ manage_os_packages() {
 }
 
 manage_os_packages
+
+# -----------------------------------------------------------------------------
+# mise
+# -----------------------------------------------------------------------------
+install_mise() {
+  if command -v mise >/dev/null 2>&1 || [ -x "${HOME}/.local/bin/mise" ]; then
+    echo 'mise is already installed.'
+    return
+  fi
+
+  curl -fsSL https://mise.run | sh
+}
+
+install_mise

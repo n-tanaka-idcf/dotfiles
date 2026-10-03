@@ -55,4 +55,5 @@ jobs:
           push: never
           runCmd: |
             chezmoi --version
+            mise --version
             echo "${{ matrix.devcontainer }} has been built successfully"
