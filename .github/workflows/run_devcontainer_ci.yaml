@@ -9,6 +9,7 @@ on:
       - .chezmoiroot
       - home/**
       - install.sh
+      - Taskfile.yml
   workflow_dispatch:
 
 defaults:
@@ -54,5 +55,5 @@ jobs:
           configFile: .devcontainer/${{ matrix.devcontainer }}/devcontainer.json
           push: never
           runCmd: |
-            chezmoi --version
+            mise exec -- task environment:check
             echo "${{ matrix.devcontainer }} has been built successfully"

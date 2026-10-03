@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Re-run when the mise config changes.
+# config.toml hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+
+mise="$(command -v mise || echo "${HOME}/.local/bin/mise")"
+
+"${mise}" install

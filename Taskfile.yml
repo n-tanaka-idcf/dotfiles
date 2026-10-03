@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+---
+version: "3"
+
+tasks:
+  default:
+    desc: 利用可能なタスクの一覧を表示します。
+    cmds:
+      - task --list-all --sort none
+
+  environment:check:
+    desc: 必要なツールが利用可能か確認します。
+    cmds:
+      - chezmoi --version
+      - curl --version
+      - gh --version
+      - git --version
+      - mise --version
+      - ssh -V
+      - task --version
