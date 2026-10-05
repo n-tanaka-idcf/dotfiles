@@ -42,7 +42,7 @@
 - ベースイメージ: `ubuntu:24.04`（TZ は `Asia/Tokyo`）
 - Features: docker-outside-of-docker, GitHub CLI, sshd, hadolint
 - VS Code 拡張: Claude Code, Docker, GitHub Actions, シェルスクリプト、TOML、YAML 用の拡張
-- コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git）、mise、mise で管理するツール（task）がインストールされます。
+- コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git）、mise、mise で管理するツール（nushell, task）がインストールされます。
 - Claude Code と GitHub CLI の設定は名前付きボリューム `misc` の `/misc/claude`、`/misc/gh` に保存されるため、コンテナを再作成しても保持されます。
 
 ### ツールの追加

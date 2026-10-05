@@ -16,5 +16,6 @@ tasks:
       - gh --version
       - git --version
       - mise --version
+      - nu --version
       - ssh -V
       - task --version
