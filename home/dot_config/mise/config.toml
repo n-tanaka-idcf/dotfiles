@@ -1,3 +1,4 @@
 [tools]
 nushell = "latest"
+starship = "latest"
 task = "latest"
