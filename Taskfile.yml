@@ -17,5 +17,6 @@ tasks:
       - git --version
       - mise --version
       - nu --version
+      - starship --version
       - ssh -V
       - task --version

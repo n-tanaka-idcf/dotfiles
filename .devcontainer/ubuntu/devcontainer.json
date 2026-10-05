@@ -52,6 +52,8 @@
         "[shellscript]": {
           "editor.defaultFormatter": "foxundermoon.shell-format"
         },
+        // Terminal
+        "terminal.integrated.fontFamily": "'Monaspace Neon NF', monospace",
         // YAML
         "[yaml]": {
           "editor.tabSize": 2,
