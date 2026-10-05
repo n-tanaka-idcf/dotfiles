@@ -57,6 +57,8 @@ mise で入れるツールは [home/dot_config/mise/config.toml](home/dot_config
 
 ```bash
 task                    # タスクの一覧を表示
+task chezmoi:diff       # chezmoi apply で適用される変更を表示
+task chezmoi:apply      # dotfiles をホームディレクトリに適用
 task environment:check  # 必要なツールが利用可能か確認
 ```
 
