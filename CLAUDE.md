@@ -18,6 +18,7 @@
 - `.chezmoiroot`: chezmoi のソースディレクトリを `home/` に指定する。
 - `home/`: chezmoi で管理する dotfiles。ファイル名は chezmoi の命名規則に従う（例: `dot_bashrc` → `~/.bashrc`）。ここ以外のファイルはホームディレクトリに配置されない。
   - `.chezmoi.toml.tmpl`: `chezmoi init` 時に `~/.config/chezmoi/chezmoi.toml` を生成する。`sourceDir` にリポジトリのパスを記録し、`--source` なしで `chezmoi apply` できるようにする。
+  - `dot_bashrc`: bash の設定。Ubuntu の既定の `~/.bashrc`（`/etc/skel/.bashrc`）をベースに、末尾で `mise activate bash` を実行して mise を有効化する。
   - `dot_config/mise/config.toml`: mise のグローバル設定。mise でインストールするツール（task など）を `[tools]` に書く。
   - `dot_config/nushell/`: nushell の設定。ツールごとの処理は `scripts/<tool>.nu` に分け、`env.nu` から `source` する。`scripts/mise.nu` は mise の shims を PATH に追加して `env.nu` / `config.nu` からツールを使えるようにし、`mise activate nu` の出力を vendor autoload ディレクトリ（`~/.local/share/nushell/vendor/autoload/mise.nu`）に保存して `config.nu` のあとに読み込ませる（ディレクトリごとの切り替えはこちらが担当）。`scripts/mise.nu` は他のスクリプトより先に `source` する。
   - `run_onchange_initial_setup.sh`: apt で OS パッケージを入れ、mise を `~/.local/bin` にインストールする。
