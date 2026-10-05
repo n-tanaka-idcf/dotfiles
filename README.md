@@ -20,6 +20,7 @@
 ├── home/                     # chezmoi で管理する dotfiles
 │   ├── .chezmoi.toml.tmpl                             # chezmoi の設定（ソースディレクトリの記録）
 │   ├── dot_config/mise/config.toml                    # mise でインストールするツール
+│   ├── dot_config/nushell/                            # nushell の設定（env.nu, config.nu, scripts/）
 │   ├── run_onchange_initial_setup.sh                  # OS パッケージと mise のインストール
 │   └── run_onchange_after_install_mise_tools.sh.tmpl  # mise install の実行
 ├── .chezmoiroot              # chezmoi のソースディレクトリ（home/）の指定
@@ -57,7 +58,7 @@ task                    # タスクの一覧を表示
 task environment:check  # 必要なツールが利用可能か確認
 ```
 
-`task` を使うにはシェルで mise を有効化する必要があります。有効化していない場合は `mise exec -- task` で実行します。
+`task` を使うにはシェルで mise を有効化する必要があります（nushell では対話シェルの起動時に自動で有効化されます）。有効化していない場合は `mise exec -- task` で実行します。
 
 ## CI
 

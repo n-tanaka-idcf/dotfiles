@@ -19,6 +19,7 @@
 - `home/`: chezmoi で管理する dotfiles。ファイル名は chezmoi の命名規則に従う（例: `dot_bashrc` → `~/.bashrc`）。ここ以外のファイルはホームディレクトリに配置されない。
   - `.chezmoi.toml.tmpl`: `chezmoi init` 時に `~/.config/chezmoi/chezmoi.toml` を生成する。`sourceDir` にリポジトリのパスを記録し、`--source` なしで `chezmoi apply` できるようにする。
   - `dot_config/mise/config.toml`: mise のグローバル設定。mise でインストールするツール（task など）を `[tools]` に書く。
+  - `dot_config/nushell/`: nushell の設定。ツールごとの処理は `scripts/<tool>.nu` に分け、`env.nu` から `source` する。`scripts/mise.nu` は `mise activate nu` の出力を vendor autoload ディレクトリ（`~/.local/share/nushell/vendor/autoload/mise.nu`）に保存し、対話シェルの起動時に自動で読み込ませる。
   - `run_onchange_initial_setup.sh`: apt で OS パッケージを入れ、mise を `~/.local/bin` にインストールする。
   - `run_onchange_after_install_mise_tools.sh.tmpl`: `mise install` を実行する。`config.toml` のハッシュを埋め込んでいるため、ツールを変更すると再実行される。`after_` なので、ファイル配置と `initial_setup.sh` のあとに実行される。
 - `Taskfile.yml`: task コマンドのタスク定義。`environment:check` で必要なツールが利用可能か確認する（CI でも実行）。
