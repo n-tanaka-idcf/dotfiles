@@ -8,6 +8,16 @@ tasks:
     cmds:
       - task --list-all --sort none
 
+  chezmoi:diff:
+    desc: chezmoi apply で適用される変更を表示します。
+    cmds:
+      - chezmoi diff {{.CLI_ARGS}}
+
+  chezmoi:apply:
+    desc: chezmoi で dotfiles をホームディレクトリに適用します。
+    cmds:
+      - chezmoi apply {{.CLI_ARGS}}
+
   environment:check:
     desc: 必要なツールが利用可能か確認します。
     cmds:

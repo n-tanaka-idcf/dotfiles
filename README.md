@@ -57,10 +57,12 @@ mise で入れるツールは [home/dot_config/mise/config.toml](home/dot_config
 
 ```bash
 task                    # タスクの一覧を表示
+task chezmoi:diff       # chezmoi apply で適用される変更を表示
+task chezmoi:apply      # dotfiles をホームディレクトリに適用
 task environment:check  # 必要なツールが利用可能か確認
 ```
 
-`task` を使うにはシェルで mise を有効化する必要があります（nushell では対話シェルの起動時に自動で有効化されます）。有効化していない場合は `mise exec -- task` で実行します。
+`task` を使うにはシェルで mise を有効化する必要があります（nushell では対話シェルの起動時に自動で有効化されます）。有効化していない場合は `mise exec -- task` で実行します。nushell では `task` のタスク名やフラグを Tab で補完できます。
 
 ## CI
 
