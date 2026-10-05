@@ -18,7 +18,9 @@
 ├── .github/workflows/
 │   └── run_devcontainer_ci.yaml  # devcontainer のビルド CI
 ├── home/                     # chezmoi で管理する dotfiles
+│   ├── .chezmoi.toml.tmpl                             # chezmoi の設定（ソースディレクトリの記録）
 │   ├── dot_config/mise/config.toml                    # mise でインストールするツール
+│   ├── dot_config/nushell/                            # nushell の設定（env.nu, config.nu, scripts/）
 │   ├── run_onchange_initial_setup.sh                  # OS パッケージと mise のインストール
 │   └── run_onchange_after_install_mise_tools.sh.tmpl  # mise install の実行
 ├── .chezmoiroot              # chezmoi のソースディレクトリ（home/）の指定
@@ -42,7 +44,7 @@
 - ベースイメージ: `ubuntu:24.04`（TZ は `Asia/Tokyo`）
 - Features: docker-outside-of-docker, GitHub CLI, sshd, hadolint
 - VS Code 拡張: Claude Code, Docker, GitHub Actions, シェルスクリプト、TOML、YAML 用の拡張
-- コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git）、mise、mise で管理するツール（task）がインストールされます。
+- コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git）、mise、mise で管理するツール（nushell, task）がインストールされます。リポジトリのパスは `~/.config/chezmoi/chezmoi.toml` に記録されるため、以降は `chezmoi apply` だけで再適用できます。
 - Claude Code と GitHub CLI の設定は名前付きボリューム `misc` の `/misc/claude`、`/misc/gh` に保存されるため、コンテナを再作成しても保持されます。
 
 ### ツールの追加
@@ -56,7 +58,7 @@ task                    # タスクの一覧を表示
 task environment:check  # 必要なツールが利用可能か確認
 ```
 
-`task` を使うにはシェルで mise を有効化する必要があります。有効化していない場合は `mise exec -- task` で実行します。
+`task` を使うにはシェルで mise を有効化する必要があります（nushell では対話シェルの起動時に自動で有効化されます）。有効化していない場合は `mise exec -- task` で実行します。
 
 ## CI
 
