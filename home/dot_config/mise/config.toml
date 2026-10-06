@@ -1,4 +1,5 @@
 [tools]
+carapace = "latest"
 nushell = "latest"
 starship = "latest"
 task = "latest"
