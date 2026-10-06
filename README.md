@@ -47,7 +47,7 @@
 - Features: docker-outside-of-docker, GitHub CLI, sshd, hadolint
 - VS Code 拡張: Claude Code, Docker, GitHub Actions, シェルスクリプト、TOML、YAML 用の拡張
 - ターミナルのフォント: `Monaspace Neon NF`。starship の Pastel Powerline プリセットは Nerd Font の記号を使うため、ホスト側に [Monaspace](https://github.com/githubnext/monaspace) の Nerd Font 版をインストールしておく必要があります。
-- コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git）、mise、mise で管理するツール（carapace, nushell, starship, task）がインストールされます。リポジトリのパスは `~/.config/chezmoi/chezmoi.toml` に記録されるため、以降は `chezmoi apply` だけで再適用できます。
+- コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git）、mise、mise で管理するツール（carapace, fzf, nushell, starship, task, zoxide）がインストールされます。リポジトリのパスは `~/.config/chezmoi/chezmoi.toml` に記録されるため、以降は `chezmoi apply` だけで再適用できます。
 - Claude Code と GitHub CLI の設定は名前付きボリューム `misc` の `/misc/claude`、`/misc/gh` に保存されるため、コンテナを再作成しても保持されます。
 
 ### ツールの追加
@@ -64,6 +64,8 @@ task environment:check  # 必要なツールが利用可能か確認
 ```
 
 `task` を使うにはシェルで mise を有効化する必要があります（bash と nushell では対話シェルの起動時に自動で有効化されます）。有効化していない場合は `mise exec -- task` で実行します。nushell では `task` のタスク名やフラグを Tab で補完できます。そのほかのコマンドも [carapace](https://carapace.sh/) で補完できます。
+
+nushell では [zoxide](https://github.com/ajeetdsouza/zoxide) が有効になっており、`z <キーワード>` で過去に移動したディレクトリへジャンプでき、`zi`（または Ctrl+J）で候補を fzf で対話的に選択できます。
 
 ## CI
 

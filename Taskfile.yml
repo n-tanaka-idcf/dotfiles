@@ -24,6 +24,7 @@ tasks:
       - carapace --version
       - chezmoi --version
       - curl --version
+      - fzf --version
       - gh --version
       - git --version
       - mise --version
@@ -31,3 +32,4 @@ tasks:
       - starship --version
       - ssh -V
       - task --version
+      - zoxide --version
