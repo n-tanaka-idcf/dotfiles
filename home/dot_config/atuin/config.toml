@@ -1,0 +1,11 @@
+# atuin の設定
+# 設定項目の一覧は https://docs.atuin.sh/configuration/config/ を参照。
+
+# atuin は mise で更新するため、起動時の更新確認は行わない。
+update_check = false
+
+# 検索バーを上に置き、新しい履歴ほど上に表示する。
+invert = true
+
+# 表示の高さ。検索バー・プレビュー・タブ・ヘルプの 4 行を除いた 10 行に履歴を表示する。
+inline_height = 14

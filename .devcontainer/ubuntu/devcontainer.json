@@ -8,6 +8,7 @@
     "ubuntu"
   ],
   "containerEnv": {
+    "ATUIN_DATA_DIR": "/misc/atuin",
     "CLAUDE_CONFIG_DIR": "/misc/claude",
     "DEVCONTAINER_NAME": "ubuntu",
     "EDITOR": "code --wait",

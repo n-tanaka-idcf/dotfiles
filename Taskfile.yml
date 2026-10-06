@@ -21,6 +21,7 @@ tasks:
   environment:check:
     desc: 必要なツールが利用可能か確認します。
     cmds:
+      - atuin --version
       - carapace --version
       - chezmoi --version
       - curl --version
