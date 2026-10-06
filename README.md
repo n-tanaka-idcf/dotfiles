@@ -19,6 +19,7 @@
 │   └── run_devcontainer_ci.yaml  # devcontainer のビルド CI
 ├── home/                     # chezmoi で管理する dotfiles
 │   ├── .chezmoi.toml.tmpl                             # chezmoi の設定（ソースディレクトリの記録）
+│   ├── dot_bashrc                                     # bash の設定（Ubuntu の既定 + mise の有効化）
 │   ├── dot_config/mise/config.toml                    # mise でインストールするツール
 │   ├── dot_config/nushell/                            # nushell の設定（env.nu, config.nu, scripts/）
 │   ├── dot_config/starship.toml                       # starship の設定（Pastel Powerline プリセット）
@@ -62,7 +63,7 @@ task chezmoi:apply      # dotfiles をホームディレクトリに適用
 task environment:check  # 必要なツールが利用可能か確認
 ```
 
-`task` を使うにはシェルで mise を有効化する必要があります（nushell では対話シェルの起動時に自動で有効化されます）。有効化していない場合は `mise exec -- task` で実行します。nushell では `task` のタスク名やフラグを Tab で補完できます。
+`task` を使うにはシェルで mise を有効化する必要があります（bash と nushell では対話シェルの起動時に自動で有効化されます）。有効化していない場合は `mise exec -- task` で実行します。nushell では `task` のタスク名やフラグを Tab で補完できます。
 
 ## CI
 
