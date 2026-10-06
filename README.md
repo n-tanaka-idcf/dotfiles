@@ -68,7 +68,7 @@ task environment:check  # 必要なツールが利用可能か確認
 
 nushell では [zoxide](https://github.com/ajeetdsouza/zoxide) が有効になっており、`z <キーワード>` で過去に移動したディレクトリへジャンプでき、`zi`（または Ctrl+J）で候補を fzf で対話的に選択できます。
 
-nushell では [atuin](https://github.com/atuinsh/atuin) が有効になっており、Ctrl+R または上矢印キーでシェル履歴を検索できます。
+nushell では [atuin](https://github.com/atuinsh/atuin) が有効になっており、Ctrl+R または上矢印キーでシェル履歴を検索できます。入力中のコマンドの続きが atuin の履歴からインラインヒント（灰色の文字）で表示され、→ キーまたは Ctrl+F で確定できます。
 
 ## CI
 
