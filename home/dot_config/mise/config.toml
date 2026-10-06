@@ -1,4 +1,5 @@
 [tools]
+atuin = "latest"
 carapace = "latest"
 fzf = "latest"
 nushell = "latest"
