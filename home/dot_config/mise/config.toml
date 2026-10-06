@@ -1,4 +1,6 @@
 [tools]
+fzf = "latest"
 nushell = "latest"
 starship = "latest"
 task = "latest"
+zoxide = "latest"
