@@ -28,6 +28,7 @@ tasks:
       - fzf --version
       - gh --version
       - git --version
+      - lefthook version
       - mise --version
       - nu --version
       - starship --version

@@ -2,6 +2,7 @@
 atuin = "latest"
 carapace = "latest"
 fzf = "latest"
+lefthook = "latest"
 nushell = "latest"
 shellcheck = "latest"
 starship = "latest"

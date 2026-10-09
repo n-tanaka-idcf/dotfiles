@@ -16,3 +16,6 @@ for dir in "${target_sub_dirs[@]}"; do
   echo "Creating sub directory: ${target_dir}/${dir}"
   mkdir -p "${target_dir}/${dir}"
 done
+
+# Install Git hooks
+mise exec -- lefthook install
