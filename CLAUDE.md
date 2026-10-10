@@ -20,9 +20,10 @@
   - `.chezmoi.toml.tmpl`: `chezmoi init` 時に `~/.config/chezmoi/chezmoi.toml` を生成する。`sourceDir` にリポジトリのパスを記録し、`--source` なしで `chezmoi apply` できるようにする。
   - `modify_dot_bashrc`: `~/.bashrc` 全体は管理せず、mise を有効化するブロック（`# >>> mise (managed by chezmoi) >>>` 〜 `# <<< mise (managed by chezmoi) <<<`）だけを末尾に追記する modify テンプレート。既存のブロックを取り除いてから追記し直すため、ほかの内容は保持され、ブロックも重複しない。`~/.bashrc` がない場合は `/etc/skel/.bashrc` をベースにする。
   - `dot_config/mise/config.toml`: mise のグローバル設定。mise でインストールするツール（task など）を `[tools]` に書く。
-  - `dot_config/nushell/`: nushell の設定。ツールごとの処理は `scripts/<tool>.nu` に分け、`env.nu` から `source` する。`scripts/mise.nu` は mise の shims を PATH に追加して `env.nu` / `config.nu` からツールを使えるようにし、`mise activate nu` の出力を vendor autoload ディレクトリ（`~/.local/share/nushell/vendor/autoload/mise.nu`）に保存して `config.nu` のあとに読み込ませる（ディレクトリごとの切り替えはこちらが担当）。`scripts/mise.nu` は他のスクリプトより先に `source` する。
+  - `dot_config/nushell/`: nushell の設定。ツールごとの処理は `scripts/<tool>.nu` に分け、`env.nu` から `source` する。`scripts/mise.nu` は mise の shims を PATH に追加して `env.nu` / `config.nu` からツールを使えるようにし、`mise activate nu` の出力を vendor autoload ディレクトリ（`~/.local/share/nushell/vendor/autoload/mise.nu`）に保存して `config.nu` のあとに読み込ませる（ディレクトリごとの切り替えはこちらが担当）。`scripts/mise.nu` は他のスクリプトより先に `source` する。起動を速くするため、`mise.nu` 以外の scripts はツールの初期化スクリプトを vendor autoload ディレクトリにキャッシュし、ファイルがあれば生成し直さない（`mise activate nu` の出力は起動時の PATH を埋め込むため、`mise.nu` は毎回生成する）。
   - `run_onchange_initial_setup.sh`: apt で OS パッケージを入れ、mise を `~/.local/bin` にインストールする。
   - `run_onchange_after_install_mise_tools.sh.tmpl`: `mise install` を実行する。`config.toml` のハッシュを埋め込んでいるため、ツールを変更すると再実行される。`after_` なので、ファイル配置と `initial_setup.sh` のあとに実行される。
+  - `run_onchange_after_reset_nushell_autoload.sh.tmpl`: nushell の vendor autoload ディレクトリにキャッシュした初期化スクリプト（`dot_config/nushell/scripts/*.nu` と同じ名前のファイル）を削除し、次の起動で作り直させる。mise の設定と nushell の scripts のハッシュを埋め込んでいるため、どちらかが変わると再実行される。
 - `lefthook.yml`: lefthook の Git フック設定。pre-commit でステージしたシェルスクリプト（`*.sh`, `*.sh.tmpl`）に shellcheck を実行する。フックは `postCreateCommand.sh` の `lefthook install` でインストールされる。
 - `Taskfile.yml`: task コマンドのタスク定義。`environment:check` で必要なツールが利用可能か確認する（CI でも実行）。
 

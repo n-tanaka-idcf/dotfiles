@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Remove the nushell init scripts cached in the vendor autoload directory
+# so that nushell regenerates them on the next start.
+# Re-run when the mise config or the nushell scripts change.
+# config.toml hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+# nushell scripts hash: {{ range (glob (joinPath .chezmoi.sourceDir "dot_config/nushell/scripts/*.nu")) }}{{ include . | sha256sum }}{{ end }}
+
+scripts_dir="{{ .chezmoi.sourceDir }}/dot_config/nushell/scripts"
+autoload_dir="${XDG_DATA_HOME:-${HOME}/.local/share}/nushell/vendor/autoload"
+
+for script in "${scripts_dir}"/*.nu; do
+  rm -f "${autoload_dir}/$(basename "${script}")"
+done

@@ -1,12 +1,11 @@
 # zoxide の初期化スクリプトを vendor autoload ディレクトリに生成する。
+# 起動を速くするため、すでにあれば作り直さない。mise の設定か scripts/*.nu が変わると chezmoi apply で削除され、次の起動で作り直される。
 # mise の shims は scripts/mise.nu で PATH に追加済み。
 let autoload_dir = $nu.vendor-autoload-dirs | last
-mkdir $autoload_dir
 let zoxide_path = $autoload_dir | path join zoxide.nu
-if (which zoxide | is-not-empty) {
-  ^zoxide init nushell | save --force $zoxide_path
-} else {
-  "" | save --force $zoxide_path
+if not ($zoxide_path | path exists) and (which zoxide | is-not-empty) {
+  mkdir $autoload_dir
+  ^zoxide init nushell | save $zoxide_path
 }
 
 # Ctrl+J で zi（zoxide の対話的なディレクトリ選択）を実行する。
