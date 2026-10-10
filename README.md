@@ -19,11 +19,11 @@
 │   └── run_devcontainer_ci.yaml  # devcontainer のビルド CI
 ├── home/                     # chezmoi で管理する dotfiles
 │   ├── .chezmoi.toml.tmpl                             # chezmoi の設定（ソースディレクトリの記録）
-│   ├── dot_bashrc                                     # bash の設定（Ubuntu の既定 + mise の有効化）
 │   ├── dot_config/atuin/config.toml                   # atuin の設定
 │   ├── dot_config/mise/config.toml                    # mise でインストールするツール
 │   ├── dot_config/nushell/                            # nushell の設定（env.nu, config.nu, scripts/）
 │   ├── dot_config/starship.toml                       # starship の設定（Pastel Powerline プリセット）
+│   ├── modify_dot_bashrc                              # ~/.bashrc の末尾に mise の有効化を追記
 │   ├── run_onchange_initial_setup.sh                  # OS パッケージと mise のインストール
 │   └── run_onchange_after_install_mise_tools.sh.tmpl  # mise install の実行
 ├── .chezmoiroot              # chezmoi のソースディレクトリ（home/）の指定
