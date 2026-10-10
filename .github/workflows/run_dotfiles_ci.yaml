@@ -1,0 +1,51 @@
+---
+name: run_dotfiles_ci
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/run_dotfiles_ci.yaml
+      - .chezmoiroot
+      - home/**
+      - install.sh
+      - Taskfile.yml
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Apply dotfiles on GitHub Actions runner
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # Avoid GitHub API rate limits when mise resolves "latest" versions
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Show workflow run-time information
+        run: |
+          echo "Workflow: ${GITHUB_WORKFLOW}"
+          echo "Branch: ${GITHUB_REF}"
+          echo "Ref name: ${GITHUB_REF_NAME}"
+          echo "Commit: ${GITHUB_SHA}"
+
+      - name: Add ~/.local/bin to PATH
+        run: |
+          echo "${HOME}/.local/bin" >> "${GITHUB_PATH}"
+
+      - name: Install chezmoi and apply dotfiles
+        run: |
+          ./install.sh
+
+      - name: Check environment
+        run: |
+          mise exec -- task environment:check

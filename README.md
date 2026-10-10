@@ -16,7 +16,8 @@
 │       ├── devcontainer-lock.json
 │       └── postCreateCommand.sh
 ├── .github/workflows/
-│   └── run_devcontainer_ci.yaml  # devcontainer のビルド CI
+│   ├── run_devcontainer_ci.yaml  # devcontainer のビルド CI
+│   └── run_dotfiles_ci.yaml      # ランナー上で dotfiles を適用する CI
 ├── home/                     # chezmoi で管理する dotfiles
 │   ├── .chezmoi.toml.tmpl                             # chezmoi の設定（ソースディレクトリの記録）
 │   ├── dot_config/atuin/config.toml                   # atuin の設定
@@ -80,5 +81,11 @@ nushell では [atuin](https://github.com/atuinsh/atuin) が有効になって�
 
 - `.devcontainer/**`
 - `.github/workflows/run_devcontainer_ci.yaml`
+- `.chezmoiroot`、`home/**`、`install.sh`
+- `Taskfile.yml`
+
+また、次のファイルを変更した PR で、[run_dotfiles_ci.yaml](.github/workflows/run_dotfiles_ci.yaml) が GitHub Actions のランナー（`ubuntu-latest`）上で `install.sh` を実行して chezmoi のインストールと dotfiles の適用を行い、`task environment:check` で必要なツールが揃っているか確認します。devcontainer を使わない環境でも dotfiles を適用できることを確認するためのものです。
+
+- `.github/workflows/run_dotfiles_ci.yaml`
 - `.chezmoiroot`、`home/**`、`install.sh`
 - `Taskfile.yml`
