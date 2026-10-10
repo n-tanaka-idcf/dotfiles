@@ -2,6 +2,7 @@
 atuin = "latest"
 carapace = "latest"
 fzf = "latest"
+herdr = "latest"
 lefthook = "latest"
 nushell = "latest"
 shellcheck = "latest"
