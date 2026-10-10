@@ -74,7 +74,7 @@ task environment:check  # 必要なツールが利用可能か確認
 
 nushell では [zoxide](https://github.com/ajeetdsouza/zoxide) が有効になっており、`z <キーワード>` で過去に移動したディレクトリへジャンプでき、`zi`（または Ctrl+J）で候補を fzf で対話的に選択できます。
 
-nushell では [atuin](https://github.com/atuinsh/atuin) が有効になっており、Ctrl+R または上矢印キーでシェル履歴を検索できます。入力中のコマンドの続きが atuin の履歴からインラインヒント（灰色の文字）で表示され、→ キーまたは Ctrl+F で確定できます。
+nushell では [atuin](https://github.com/atuinsh/atuin) が有効になっており、Ctrl+R または上矢印キーでシェル履歴を検索できます。入力中のコマンドの続きが atuin の履歴からインラインヒント（灰色の文字）で表示され、→ キーまたは Ctrl+F で確定できます。ヒントは 2 文字以上入力したときに表示され、入力が前回の候補と一致しているあいだは atuin を呼ばずに前回の結果を使い回します。履歴の記録と検索は、必要になったときに自動で起動する atuin の daemon が担当します（`atuin daemon status` で状態を確認できます）。
 
 nushell の起動を速くするため、atuin、carapace、starship、task、zoxide の初期化スクリプトは `~/.local/share/nushell/vendor/autoload/` にキャッシュされ、起動のたびには生成し直しません（mise の有効化スクリプトは起動時の PATH を埋め込むため、毎回生成します）。キャッシュは mise の設定か `dot_config/nushell/scripts/` が変わったときに `chezmoi apply` で削除され、次の起動で作り直されます。`mise upgrade` でツールだけを更新したときは、該当するファイルを削除して nushell を起動し直してください。
 

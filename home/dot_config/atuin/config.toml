@@ -9,3 +9,12 @@ invert = true
 
 # 表示の高さ。検索バー・プレビュー・タブ・ヘルプの 4 行を除いた 10 行に履歴を表示する。
 inline_height = 14
+
+# Ctrl+R と上矢印キーの検索は daemon がメモリ上に持つインデックスで行い、履歴が増えても速くする。
+search_mode = "daemon-fuzzy"
+
+# 履歴の記録と検索を常駐する daemon に任せ、コマンドを実行するたびに DB を開き直さないようにする。
+# daemon は必要になったときに自動で起動する。
+[daemon]
+enabled = true
+autostart = true
