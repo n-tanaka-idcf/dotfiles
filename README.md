@@ -92,3 +92,8 @@ nushell の起動を速くするため、atuin、carapace、starship、task、zo
 - `.github/workflows/run_dotfiles_ci.yaml`
 - `.chezmoiroot`、`home/**`、`install.sh`
 - `Taskfile.yml`
+
+どちらの CI も、同じファイルの変更が main にマージされたときにも実行され、PR の CI で使うキャッシュを保存します。
+
+- run_devcontainer_ci: Docker のビルドキャッシュを GitHub Actions のキャッシュ（`type=gha`）に保存し、Features などの変わっていないレイヤーを再利用します。devcontainers/ci は Docker Compose 構成のビルドに `cacheTo` を渡さないため、CI の中で `.devcontainer/compose.yml` に `cache_from` / `cache_to` を追加しています。
+- run_dotfiles_ci: mise でインストールしたツール（`~/.local/share/mise/installs`）をキャッシュし、最新版が変わったツールだけをダウンロードします。キャッシュは main でのみ保存し（古いバージョンは `mise prune` で削除）、PR では復元だけを行います。
