@@ -14,7 +14,7 @@
   - `devcontainer-lock.json`: Features のバージョン固定
   - `postCreateCommand.sh`: コンテナ作成後の初期化処理（`/misc` 配下のディレクトリ作成など）
 - `.github/workflows/run_devcontainer_ci.yaml`: matrix で各 devcontainer をビルドする CI。
-- `.github/workflows/run_dotfiles_ci.yaml`: GitHub Actions のランナー上で `install.sh` を実行して dotfiles を適用し、`task environment:check` を実行する CI。
+- `.github/workflows/run_dotfiles_ci.yaml`: GitHub Actions のランナー上で `install.sh` を実行して dotfiles を適用し、nushell（ログインシェル）上で `task environment:check` を実行する CI。
 - `install.sh`: chezmoi をインストールし、dotfiles を適用する。devcontainer の `onCreateCommand` から実行される。
 - `.chezmoiroot`: chezmoi のソースディレクトリを `home/` に指定する。
 - `home/`: chezmoi で管理する dotfiles。ファイル名は chezmoi の命名規則に従う（例: `dot_bashrc` → `~/.bashrc`）。ここ以外のファイルはホームディレクトリに配置されない。

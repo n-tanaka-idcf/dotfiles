@@ -46,6 +46,7 @@ jobs:
         run: |
           ./install.sh
 
-      - name: Check environment
+      # Run as a login shell so that env.nu adds mise shims to PATH
+      - name: Check environment on nushell
         run: |
-          mise exec -- task environment:check
+          "$(mise which nu)" --login --commands 'task environment:check'
