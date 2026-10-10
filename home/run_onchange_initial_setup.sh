@@ -15,6 +15,7 @@ manage_os_packages() {
     packages=(
       curl
       git
+      openssh-client
     )
 
     for package in "${packages[@]}"; do
