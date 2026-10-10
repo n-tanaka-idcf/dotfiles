@@ -10,6 +10,17 @@ on:
       - home/**
       - install.sh
       - Taskfile.yml
+  # Run on main to save the build cache that pull requests restore
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/run_devcontainer_ci.yaml
+      - .devcontainer/**
+      - .chezmoiroot
+      - home/**
+      - install.sh
+      - Taskfile.yml
   workflow_dispatch:
 
 defaults:
@@ -45,6 +56,20 @@ jobs:
       - name: Create .env file
         run: |
           cp .devcontainer/.env.example .devcontainer/.env
+
+      # devcontainers/ci does not pass cacheTo to Docker Compose builds, so set
+      # the GitHub Actions cache on the compose service instead. The devcontainer
+      # CLI keeps these settings when it builds the image with Features.
+      - name: Use GitHub Actions cache for docker build
+        env:
+          SERVICE: ${{ matrix.devcontainer }}
+          SCOPE: devcontainer-${{ matrix.devcontainer }}
+        run: |
+          yq -i '
+            .services[strenv(SERVICE)].build.cache_from = ["type=gha,scope=" + strenv(SCOPE)] |
+            .services[strenv(SERVICE)].build.cache_to = ["type=gha,mode=max,scope=" + strenv(SCOPE)]
+          ' .devcontainer/compose.yml
+          cat .devcontainer/compose.yml
 
       - name: Set up docker buildx
         uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0

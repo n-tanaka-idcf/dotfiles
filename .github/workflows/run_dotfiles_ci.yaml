@@ -9,6 +9,16 @@ on:
       - home/**
       - install.sh
       - Taskfile.yml
+  # Run on main to save the mise cache that pull requests restore
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/run_dotfiles_ci.yaml
+      - .chezmoiroot
+      - home/**
+      - install.sh
+      - Taskfile.yml
   workflow_dispatch:
 
 defaults:
@@ -42,6 +52,16 @@ jobs:
         run: |
           echo "${HOME}/.local/bin" >> "${GITHUB_PATH}"
 
+      # Restore the tools installed by mise so that "mise install" only
+      # downloads the tools whose latest version has changed
+      - name: Restore mise cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.local/share/mise/installs
+          key: mise-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            mise-${{ runner.os }}-
+
       - name: Install chezmoi and apply dotfiles
         run: |
           ./install.sh
@@ -50,3 +70,17 @@ jobs:
       - name: Check environment on nushell
         run: |
           "$(mise which nu)" --login --commands 'task environment:check'
+
+      # Save the cache only on main to avoid uploading it on every pull request.
+      # Remove old versions first so that the cache does not keep growing.
+      - name: Prune old tool versions
+        if: github.event_name != 'pull_request'
+        run: |
+          mise prune --yes
+
+      - name: Save mise cache
+        if: github.event_name != 'pull_request'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.local/share/mise/installs
+          key: mise-${{ runner.os }}-${{ github.run_id }}
