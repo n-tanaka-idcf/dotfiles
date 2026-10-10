@@ -26,7 +26,8 @@
 │   ├── dot_config/starship.toml                       # starship の設定（Pastel Powerline プリセット）
 │   ├── modify_dot_bashrc                              # ~/.bashrc の末尾に mise の有効化を追記
 │   ├── run_onchange_initial_setup.sh                  # OS パッケージと mise のインストール
-│   └── run_onchange_after_install_mise_tools.sh.tmpl  # mise install の実行
+│   ├── run_onchange_after_install_mise_tools.sh.tmpl  # mise install の実行
+│   └── run_onchange_after_reset_nushell_autoload.sh.tmpl  # nushell の初期化スクリプトのキャッシュ削除
 ├── .chezmoiroot              # chezmoi のソースディレクトリ（home/）の指定
 ├── CLAUDE.md                 # Claude Code 向けのリポジトリガイド
 ├── install.sh                # chezmoi のインストールと dotfiles の適用
@@ -73,6 +74,8 @@ task environment:check  # 必要なツールが利用可能か確認
 nushell では [zoxide](https://github.com/ajeetdsouza/zoxide) が有効になっており、`z <キーワード>` で過去に移動したディレクトリへジャンプでき、`zi`（または Ctrl+J）で候補を fzf で対話的に選択できます。
 
 nushell では [atuin](https://github.com/atuinsh/atuin) が有効になっており、Ctrl+R または上矢印キーでシェル履歴を検索できます。入力中のコマンドの続きが atuin の履歴からインラインヒント（灰色の文字）で表示され、→ キーまたは Ctrl+F で確定できます。
+
+nushell の起動を速くするため、atuin、carapace、starship、task、zoxide の初期化スクリプトは `~/.local/share/nushell/vendor/autoload/` にキャッシュされ、起動のたびには生成し直しません（mise の有効化スクリプトは起動時の PATH を埋め込むため、毎回生成します）。キャッシュは mise の設定か `dot_config/nushell/scripts/` が変わったときに `chezmoi apply` で削除され、次の起動で作り直されます。`mise upgrade` でツールだけを更新したときは、該当するファイルを削除して nushell を起動し直してください。
 
 ## CI
 
