@@ -1,0 +1,14 @@
+onboarding = false
+
+[terminal]
+default_shell = "nu"
+
+[keys]
+prefix = "ctrl+t"
+# tmux と同じく prefix+; で直前のペインに戻る
+last_pane = "prefix+semicolon"
+
+[ui]
+# tmux のように外枠なし・境界線 1 本でペインを区切る
+pane_outer_borders = false
+pane_gaps = false
