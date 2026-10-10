@@ -20,6 +20,7 @@
 ├── home/                     # chezmoi で管理する dotfiles
 │   ├── .chezmoi.toml.tmpl                             # chezmoi の設定（ソースディレクトリの記録）
 │   ├── dot_config/atuin/config.toml                   # atuin の設定
+│   ├── dot_config/herdr/config.toml                   # herdr の設定
 │   ├── dot_config/mise/config.toml                    # mise でインストールするツール
 │   ├── dot_config/nushell/                            # nushell の設定（env.nu, config.nu, scripts/）
 │   ├── dot_config/starship.toml                       # starship の設定（Pastel Powerline プリセット）
