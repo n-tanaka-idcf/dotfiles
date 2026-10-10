@@ -23,6 +23,7 @@
   - `dot_config/nushell/`: nushell の設定。ツールごとの処理は `scripts/<tool>.nu` に分け、`env.nu` から `source` する。`scripts/mise.nu` は mise の shims を PATH に追加して `env.nu` / `config.nu` からツールを使えるようにし、`mise activate nu` の出力を vendor autoload ディレクトリ（`~/.local/share/nushell/vendor/autoload/mise.nu`）に保存して `config.nu` のあとに読み込ませる（ディレクトリごとの切り替えはこちらが担当）。`scripts/mise.nu` は他のスクリプトより先に `source` する。
   - `run_onchange_initial_setup.sh`: apt で OS パッケージを入れ、mise を `~/.local/bin` にインストールする。
   - `run_onchange_after_install_mise_tools.sh.tmpl`: `mise install` を実行する。`config.toml` のハッシュを埋め込んでいるため、ツールを変更すると再実行される。`after_` なので、ファイル配置と `initial_setup.sh` のあとに実行される。
+- `lefthook.yml`: lefthook の Git フック設定。pre-commit でステージしたシェルスクリプト（`*.sh`, `*.sh.tmpl`）に shellcheck を実行する。フックは `postCreateCommand.sh` の `lefthook install` でインストールされる。
 - `Taskfile.yml`: task コマンドのタスク定義。`environment:check` で必要なツールが利用可能か確認する（CI でも実行）。
 
 ## 規約
@@ -40,5 +41,6 @@
 ## 検証
 
 - Dockerfile: `hadolint .devcontainer/ubuntu/Dockerfile`
+- シェルスクリプト: `shellcheck <file>`（コミット時に lefthook が自動で実行する）
 - ツール: `mise exec -- task environment:check`
 - devcontainer のビルドは CI（PR 作成時）で確認する。

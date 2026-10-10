@@ -28,9 +28,11 @@ tasks:
       - fzf --version
       - gh --version
       - git --version
+      - lefthook version
       - mise --version
       - nu --version
       - starship --version
+      - shellcheck --version
       - ssh -V
       - task --version
       - zoxide --version
