@@ -34,7 +34,12 @@ jobs:
     name: Apply dotfiles on ${{ matrix.name }}
     runs-on: ubuntu-latest
     # Run in a clean container to reproduce a freshly installed OS
-    container: ${{ matrix.image }}
+    container:
+      image: ${{ matrix.image }}
+      # The Rocky Linux image does not define PATH, so the runner would drop
+      # the system directories when it prepends the paths added to GITHUB_PATH
+      env:
+        PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     timeout-minutes: 30
     strategy:
       fail-fast: false
