@@ -1,8 +1,10 @@
 [tools]
 atuin = "latest"
 carapace = "latest"
+claude = "latest"
 fzf = "latest"
 herdr = "latest"
+jq = "latest"
 k9s = "latest"
 kind = "latest"
 kubectl = "latest"
@@ -13,3 +15,7 @@ starship = "latest"
 task = "latest"
 "github:Gaurav-Gosain/tuios" = "latest"
 zoxide = "latest"
+
+[env]
+# Claude Code は mise で更新するため、自動更新を無効にする
+DISABLE_AUTOUPDATER = "1"

@@ -24,11 +24,13 @@ tasks:
       - atuin --version
       - carapace --version
       - chezmoi --version
+      - claude --version
       - curl --version
       - fzf --version
       - gh --version
       - git --version
       - herdr --version
+      - jq --version
       - k9s version --short
       - kind --version
       - kubectl version --client

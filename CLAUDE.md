@@ -20,13 +20,14 @@
 - `home/`: chezmoi で管理する dotfiles。ファイル名は chezmoi の命名規則に従う（例: `dot_bashrc` → `~/.bashrc`）。ここ以外のファイルはホームディレクトリに配置されない。
   - `.chezmoi.toml.tmpl`: `chezmoi init` 時に `~/.config/chezmoi/chezmoi.toml` を生成する。`sourceDir` にリポジトリのパスを記録し、`--source` なしで `chezmoi apply` できるようにする。
   - `modify_dot_bashrc`: `~/.bashrc` 全体は管理せず、mise を有効化するブロック（`# >>> mise (managed by chezmoi) >>>` 〜 `# <<< mise (managed by chezmoi) <<<`）だけを末尾に追記する modify テンプレート。既存のブロックを取り除いてから追記し直すため、ほかの内容は保持され、ブロックも重複しない。`~/.bashrc` がない場合は `/etc/skel/.bashrc` をベースにする。
-  - `dot_config/mise/config.toml`: mise のグローバル設定。mise でインストールするツール（task など）を `[tools]` に書く。
+  - `dot_config/mise/config.toml`: mise のグローバル設定。mise でインストールするツール（task など）を `[tools]` に書く。`[env]` で Claude Code の自動更新を無効にする（mise で更新するため）。
   - `dot_config/tuios/config.d/dotfiles.toml`: tuios の設定。tuios はアプリ内で変更した設定を `~/.config/tuios/config.toml` に書き込むため、`config.toml` は chezmoi で管理せず、それより優先度の低い `config.d/` に置く。
   - `dot_config/nushell/`: nushell の設定。ツールごとの処理は `scripts/<tool>.nu` に分け、`env.nu` から `source` する。`scripts/mise.nu` は mise の shims を PATH に追加して `env.nu` / `config.nu` からツールを使えるようにし、`mise activate nu` の出力を vendor autoload ディレクトリ（`~/.local/share/nushell/vendor/autoload/mise.nu`）に保存して `config.nu` のあとに読み込ませる（ディレクトリごとの切り替えはこちらが担当）。`scripts/mise.nu` は他のスクリプトより先に `source` する。起動を速くするため、`mise.nu` 以外の scripts はツールの初期化スクリプトを vendor autoload ディレクトリにキャッシュし、ファイルがあれば生成し直さない（`mise activate nu` の出力は起動時の PATH を埋め込むため、`mise.nu` は毎回生成する）。
   - `run_onchange_initial_setup.sh`: apt で OS パッケージを入れ、mise を `~/.local/bin` にインストールする。
   - `run_onchange_after_install_mise_tools.sh.tmpl`: `mise install` を実行する。`config.toml` のハッシュを埋め込んでいるため、ツールを変更すると再実行される。`after_` なので、ファイル配置と `initial_setup.sh` のあとに実行される。
   - `run_onchange_after_reset_nushell_autoload.sh.tmpl`: nushell の vendor autoload ディレクトリにキャッシュした初期化スクリプト（`dot_config/nushell/scripts/*.nu` と同じ名前のファイル）を削除し、次の起動で作り直させる。mise の設定と nushell の scripts のハッシュを埋め込んでいるため、どちらかが変わると再実行される。
 - `lefthook.yml`: lefthook の Git フック設定。pre-commit でステージしたシェルスクリプト（`*.sh`, `*.sh.tmpl`）に shellcheck を実行する。フックは `postCreateCommand.sh` の `lefthook install` でインストールされる。
+- `.claude/settings.json`: Claude Code のプロジェクト設定。`language` で回答を日本語にする。`permissions` で検証用コマンドを許可し、秘密情報（`.devcontainer/.env`、認証情報）の読み取りを禁止する。`hooks` で、Edit / Write のあとに `.claude/hooks/check_edited_file.sh` を実行し、リポジトリ内の編集したファイルを確認する（シェルスクリプトの shellcheck、行末の空白、末尾の改行）。問題があれば exit 2 で Claude に伝える。`statusLine` で `.claude/statusline.sh` を実行し、CLI にモデル名、コンテキストの使用率、セッションのコスト（概算）を表示する。どちらも jq が必要。
 - `Taskfile.yml`: task コマンドのタスク定義。`environment:check` で必要なツールが利用可能か確認する（両方の CI で実行）。
 
 ## 規約
@@ -47,3 +48,10 @@
 - シェルスクリプト: `shellcheck <file>`（コミット時に lefthook が自動で実行する）
 - ツール: `mise exec -- task environment:check`
 - devcontainer のビルドは CI（PR 作成時）で確認する。
+
+## 作業の進め方
+
+- main で直接作業せず、ブランチを切ってコミットし、PR を作る。
+- コミットする前に、変更したファイルに対応する「検証」のコマンドを実行する。
+- コミットメッセージは英語で書く。1 行目は動詞の原形で始める短い要約にする（例: `Install tuios with mise`）。
+- PR のタイトルは英語、本文は日本語で書く。本文は「## 概要」で変更したファイルごとに内容を説明し、必要に応じて理由や補足の節を加える。
