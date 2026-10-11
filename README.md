@@ -50,6 +50,16 @@
 
 2. VS Code でリポジトリを開き、「Dev Containers: Reopen in Container」から `ubuntu` を選択します。
 
+### devcontainer を使わない環境
+
+VM などに直接適用する場合は、次のコマンドで chezmoi をインストールし、このリポジトリの dotfiles を適用します。Debian 系（apt）と RHEL 系（dnf）に対応しており、OS パッケージのインストールに `sudo` を使います。事前に `git` と `curl` が必要です。
+
+```bash
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply n-tanaka-idcf
+```
+
+リポジトリは `~/.local/share/chezmoi` に clone されます。以降は `chezmoi update` で取り込みと再適用を行えます。
+
 ### devcontainer の内容
 
 - ベースイメージ: `ubuntu:24.04`（TZ は `Asia/Tokyo`）
