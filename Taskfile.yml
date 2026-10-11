@@ -39,4 +39,5 @@ tasks:
       - shellcheck --version
       - ssh -V
       - task --version
+      - tuios --version
       - zoxide --version
