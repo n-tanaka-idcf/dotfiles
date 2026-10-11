@@ -25,6 +25,7 @@
 │   ├── dot_config/mise/config.toml                    # mise でインストールするツール
 │   ├── dot_config/nushell/                            # nushell の設定（env.nu, config.nu, scripts/）
 │   ├── dot_config/starship.toml                       # starship の設定（Pastel Powerline プリセット）
+│   ├── dot_config/tuios/config.d/dotfiles.toml        # tuios の設定（~/.config/tuios/config.toml が優先）
 │   ├── modify_dot_bashrc                              # ~/.bashrc の末尾に mise の有効化を追記
 │   ├── run_onchange_initial_setup.sh                  # OS パッケージと mise のインストール
 │   ├── run_onchange_after_install_mise_tools.sh.tmpl  # mise install の実行
