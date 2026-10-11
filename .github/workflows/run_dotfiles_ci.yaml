@@ -31,13 +31,35 @@ concurrency:
 
 jobs:
   ci:
-    name: Apply dotfiles on GitHub Actions runner
+    name: Apply dotfiles on ${{ matrix.name }}
     runs-on: ubuntu-latest
+    # Run in a clean container to reproduce a freshly installed OS
+    container: ${{ matrix.image }}
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: ubuntu-24.04
+            image: ubuntu:24.04
+            # sudo is used by run_onchange_initial_setup.sh
+            prepare: |
+              apt-get update
+              apt-get install -y curl git sudo
+          - name: rockylinux-9
+            image: rockylinux/rockylinux:9
+            prepare: |
+              dnf install -y git sudo
     env:
       # Avoid GitHub API rate limits when mise resolves "latest" versions
       GITHUB_TOKEN: ${{ github.token }}
+      DEBIAN_FRONTEND: noninteractive
     steps:
+      # Install git before checkout so that the repository is cloned with git
+      - name: Install prerequisites
+        run: |
+          ${{ matrix.prepare }}
+
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -58,9 +80,9 @@ jobs:
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.local/share/mise/installs
-          key: mise-${{ runner.os }}-${{ github.run_id }}
+          key: mise-${{ matrix.name }}-${{ github.run_id }}
           restore-keys: |
-            mise-${{ runner.os }}-
+            mise-${{ matrix.name }}-
 
       - name: Install chezmoi and apply dotfiles
         run: |
@@ -83,4 +105,4 @@ jobs:
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.local/share/mise/installs
-          key: mise-${{ runner.os }}-${{ github.run_id }}
+          key: mise-${{ matrix.name }}-${{ github.run_id }}

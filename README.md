@@ -20,7 +20,7 @@
 │       └── postCreateCommand.sh
 ├── .github/workflows/
 │   ├── run_devcontainer_ci.yaml  # devcontainer のビルド CI
-│   └── run_dotfiles_ci.yaml      # ランナー上で dotfiles を適用する CI
+│   └── run_dotfiles_ci.yaml      # Ubuntu / Rocky Linux のコンテナで dotfiles を適用する CI
 ├── home/                     # chezmoi で管理する dotfiles
 │   ├── .chezmoi.toml.tmpl                             # chezmoi の設定（ソースディレクトリの記録）
 │   ├── dot_config/atuin/config.toml                   # atuin の設定
@@ -104,7 +104,7 @@ nushell の起動を速くするため、atuin、carapace、starship、task、zo
 - `.chezmoiroot`、`home/**`、`install.sh`
 - `Taskfile.yml`
 
-また、次のファイルを変更した PR で、[run_dotfiles_ci.yaml](.github/workflows/run_dotfiles_ci.yaml) が GitHub Actions のランナー（`ubuntu-latest`）上で `install.sh` を実行して chezmoi のインストールと dotfiles の適用を行い、nushell 上で `task environment:check` を実行して必要なツールが揃っているか確認します。devcontainer を使わない環境でも dotfiles を適用できることを確認するためのものです。
+また、次のファイルを変更した PR で、[run_dotfiles_ci.yaml](.github/workflows/run_dotfiles_ci.yaml) が matrix で `ubuntu:24.04` と `rockylinux/rockylinux:9` のコンテナを起動し、その中で `install.sh` を実行して chezmoi のインストールと dotfiles の適用を行い、nushell 上で `task environment:check` を実行して必要なツールが揃っているか確認します。devcontainer を使わない Debian 系・RHEL 系の環境でも dotfiles を適用できることを確認するためのものです。コンテナには事前に sudo と git（Ubuntu では curl も）だけを入れ、新しくインストールした OS に近い状態で確認します。
 
 - `.github/workflows/run_dotfiles_ci.yaml`
 - `.chezmoiroot`、`home/**`、`install.sh`
@@ -113,4 +113,4 @@ nushell の起動を速くするため、atuin、carapace、starship、task、zo
 どちらの CI も、同じファイルの変更が main にマージされたときにも実行され、PR の CI で使うキャッシュを保存します。
 
 - run_devcontainer_ci: Docker のビルドキャッシュを GitHub Actions のキャッシュ（`type=gha`）に保存し、Features などの変わっていないレイヤーを再利用します。devcontainers/ci は Docker Compose 構成のビルドに `cacheTo` を渡さないため、CI の中で `.devcontainer/compose.yml` に `cache_from` / `cache_to` を追加しています。
-- run_dotfiles_ci: mise でインストールしたツール（`~/.local/share/mise/installs`）をキャッシュし、最新版が変わったツールだけをダウンロードします。キャッシュは main でのみ保存し（古いバージョンは `mise prune` で削除）、PR では復元だけを行います。
+- run_dotfiles_ci: mise でインストールしたツール（`~/.local/share/mise/installs`）を OS ごとにキャッシュし、最新版が変わったツールだけをダウンロードします。キャッシュは main でのみ保存し（古いバージョンは `mise prune` で削除）、PR では復元だけを行います。
