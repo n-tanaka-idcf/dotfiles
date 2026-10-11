@@ -25,6 +25,7 @@
 │   ├── dot_config/mise/config.toml                    # mise でインストールするツール
 │   ├── dot_config/nushell/                            # nushell の設定（env.nu, config.nu, scripts/）
 │   ├── dot_config/starship.toml                       # starship の設定（Pastel Powerline プリセット）
+│   ├── dot_config/tuios/config.d/dotfiles.toml        # tuios の設定（~/.config/tuios/config.toml が優先）
 │   ├── modify_dot_bashrc                              # ~/.bashrc の末尾に mise の有効化を追記
 │   ├── run_onchange_initial_setup.sh                  # OS パッケージと mise のインストール
 │   ├── run_onchange_after_install_mise_tools.sh.tmpl  # mise install の実行
@@ -52,7 +53,7 @@
 - Features: docker-outside-of-docker, GitHub CLI, hadolint
 - VS Code 拡張: Claude Code, Docker, GitHub Actions, シェルスクリプト、TOML、YAML 用の拡張
 - ターミナルのフォント: `Monaspace Neon NF`。starship の Pastel Powerline プリセットは Nerd Font の記号を使うため、ホスト側に [Monaspace](https://github.com/githubnext/monaspace) の Nerd Font 版をインストールしておく必要があります。
-- コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git, openssh-client）、mise、mise で管理するツール（atuin, carapace, fzf, herdr, k9s, kind, kubectl, lefthook, nushell, shellcheck, starship, task, zoxide）がインストールされます。リポジトリのパスは `~/.config/chezmoi/chezmoi.toml` に記録されるため、以降は `chezmoi apply` だけで再適用できます。
+- コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git, openssh-client）、mise、mise で管理するツール（atuin, carapace, fzf, herdr, k9s, kind, kubectl, lefthook, nushell, shellcheck, starship, task, tuios, zoxide）がインストールされます。リポジトリのパスは `~/.config/chezmoi/chezmoi.toml` に記録されるため、以降は `chezmoi apply` だけで再適用できます。
 - Claude Code と GitHub CLI の設定、atuin のシェル履歴は名前付きボリューム `misc` の `/misc/claude`、`/misc/gh`、`/misc/atuin` に保存されるため、コンテナを再作成しても保持されます。
 
 - コンテナ作成後（`postCreateCommand`）に `lefthook install` で Git フックをインストールします。コミット時に、ステージしたシェルスクリプト（`*.sh`, `*.sh.tmpl`）を shellcheck で検査します。

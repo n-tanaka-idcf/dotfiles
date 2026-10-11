@@ -1,0 +1,10 @@
+# chezmoi で管理する tuios の設定。
+# tuios はアプリ内で変更した設定を ~/.config/tuios/config.toml に書き込み、
+# そちらの値がこのファイルより優先される。
+
+[startup]
+tiled = true
+daemon = true
+
+[keybindings]
+leader_key = "ctrl+t"
