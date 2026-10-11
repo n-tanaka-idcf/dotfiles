@@ -28,6 +28,7 @@ tasks:
       - curl --version
       - fzf --version
       - gh --version
+      - ghq --version
       - git --version
       - herdr --version
       - jq --version
