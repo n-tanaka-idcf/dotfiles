@@ -1,8 +1,10 @@
 [tools]
-atuin = "latest"
+# aqua の atuin は glibc 版で、RHEL 9（glibc 2.34）では動かないため musl 版を使う
+"github:atuinsh/atuin" = { version = "latest", platforms = { linux-x64 = { asset_pattern = "atuin-x86_64-unknown-linux-musl.tar.gz" }, linux-arm64 = { asset_pattern = "atuin-aarch64-unknown-linux-musl.tar.gz" } } }
 carapace = "latest"
 claude = "latest"
 fzf = "latest"
+gh = "latest"
 herdr = "latest"
 jq = "latest"
 k9s = "latest"

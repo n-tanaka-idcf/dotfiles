@@ -20,7 +20,7 @@
 │       └── postCreateCommand.sh
 ├── .github/workflows/
 │   ├── run_devcontainer_ci.yaml  # devcontainer のビルド CI
-│   └── run_dotfiles_ci.yaml      # ランナー上で dotfiles を適用する CI
+│   └── run_dotfiles_ci.yaml      # Ubuntu / Rocky Linux のコンテナで dotfiles を適用する CI
 ├── home/                     # chezmoi で管理する dotfiles
 │   ├── .chezmoi.toml.tmpl                             # chezmoi の設定（ソースディレクトリの記録）
 │   ├── dot_config/atuin/config.toml                   # atuin の設定
@@ -50,13 +50,23 @@
 
 2. VS Code でリポジトリを開き、「Dev Containers: Reopen in Container」から `ubuntu` を選択します。
 
+### devcontainer を使わない環境
+
+VM などに直接適用する場合は、次のコマンドで chezmoi をインストールし、このリポジトリの dotfiles を適用します。Debian 系（apt）と RHEL 系（dnf）に対応しており、OS パッケージのインストールに `sudo` を使います。事前に `git` と `curl` が必要です。
+
+```bash
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply n-tanaka-idcf
+```
+
+リポジトリは `~/.local/share/chezmoi` に clone されます。以降は `chezmoi update` で取り込みと再適用を行えます。
+
 ### devcontainer の内容
 
 - ベースイメージ: `ubuntu:24.04`（TZ は `Asia/Tokyo`）
-- Features: docker-outside-of-docker, GitHub CLI, hadolint
+- Features: docker-outside-of-docker, hadolint
 - VS Code 拡張: Claude Code, Docker, GitHub Actions, シェルスクリプト、TOML、YAML 用の拡張
 - ターミナルのフォント: `Monaspace Neon NF`。starship の Pastel Powerline プリセットは Nerd Font の記号を使うため、ホスト側に [Monaspace](https://github.com/githubnext/monaspace) の Nerd Font 版をインストールしておく必要があります。
-- コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git, openssh-client）、mise、mise で管理するツール（atuin, carapace, claude, fzf, herdr, jq, k9s, kind, kubectl, lefthook, nushell, shellcheck, starship, task, tuios, zoxide）がインストールされます。リポジトリのパスは `~/.config/chezmoi/chezmoi.toml` に記録されるため、以降は `chezmoi apply` だけで再適用できます。
+- コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git, openssh-client）、mise、mise で管理するツール（atuin, carapace, claude, fzf, gh, herdr, jq, k9s, kind, kubectl, lefthook, nushell, shellcheck, starship, task, tuios, zoxide）がインストールされます。リポジトリのパスは `~/.config/chezmoi/chezmoi.toml` に記録されるため、以降は `chezmoi apply` だけで再適用できます。
 - Claude Code と GitHub CLI の設定、atuin のシェル履歴は名前付きボリューム `misc` の `/misc/claude`、`/misc/gh`、`/misc/atuin` に保存されるため、コンテナを再作成しても保持されます。
 
 - コンテナ作成後（`postCreateCommand`）に `lefthook install` で Git フックをインストールします。コミット時に、ステージしたシェルスクリプト（`*.sh`, `*.sh.tmpl`）を shellcheck で検査します。
@@ -94,7 +104,7 @@ nushell の起動を速くするため、atuin、carapace、starship、task、zo
 - `.chezmoiroot`、`home/**`、`install.sh`
 - `Taskfile.yml`
 
-また、次のファイルを変更した PR で、[run_dotfiles_ci.yaml](.github/workflows/run_dotfiles_ci.yaml) が GitHub Actions のランナー（`ubuntu-latest`）上で `install.sh` を実行して chezmoi のインストールと dotfiles の適用を行い、nushell 上で `task environment:check` を実行して必要なツールが揃っているか確認します。devcontainer を使わない環境でも dotfiles を適用できることを確認するためのものです。
+また、次のファイルを変更した PR で、[run_dotfiles_ci.yaml](.github/workflows/run_dotfiles_ci.yaml) が matrix で `ubuntu:24.04` と `rockylinux/rockylinux:9` のコンテナを起動し、その中で `install.sh` を実行して chezmoi のインストールと dotfiles の適用を行い、nushell 上で `task environment:check` を実行して必要なツールが揃っているか確認します。devcontainer を使わない Debian 系・RHEL 系の環境でも dotfiles を適用できることを確認するためのものです。コンテナには事前に sudo と git（Ubuntu では curl も）だけを入れ、新しくインストールした OS に近い状態で確認します。
 
 - `.github/workflows/run_dotfiles_ci.yaml`
 - `.chezmoiroot`、`home/**`、`install.sh`
@@ -103,4 +113,4 @@ nushell の起動を速くするため、atuin、carapace、starship、task、zo
 どちらの CI も、同じファイルの変更が main にマージされたときにも実行され、PR の CI で使うキャッシュを保存します。
 
 - run_devcontainer_ci: Docker のビルドキャッシュを GitHub Actions のキャッシュ（`type=gha`）に保存し、Features などの変わっていないレイヤーを再利用します。devcontainers/ci は Docker Compose 構成のビルドに `cacheTo` を渡さないため、CI の中で `.devcontainer/compose.yml` に `cache_from` / `cache_to` を追加しています。
-- run_dotfiles_ci: mise でインストールしたツール（`~/.local/share/mise/installs`）をキャッシュし、最新版が変わったツールだけをダウンロードします。キャッシュは main でのみ保存し（古いバージョンは `mise prune` で削除）、PR では復元だけを行います。
+- run_dotfiles_ci: mise でインストールしたツール（`~/.local/share/mise/installs`）を OS ごとにキャッシュし、最新版が変わったツールだけをダウンロードします。キャッシュは main でのみ保存し（古いバージョンは `mise prune` で削除）、PR では復元だけを行います。
