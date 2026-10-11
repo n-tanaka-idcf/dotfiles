@@ -24,6 +24,7 @@ tasks:
       - atuin --version
       - carapace --version
       - chezmoi --version
+      - claude --version
       - curl --version
       - fzf --version
       - gh --version
