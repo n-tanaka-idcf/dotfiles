@@ -16,5 +16,19 @@
       "Read(//misc/claude/.credentials.json)",
       "Read(//misc/gh/hosts.yml)"
     ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/check_edited_file.sh",
+            "statusMessage": "編集したファイルを確認しています"
+          }
+        ]
+      }
+    ]
   }
 }

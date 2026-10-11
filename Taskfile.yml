@@ -29,6 +29,7 @@ tasks:
       - gh --version
       - git --version
       - herdr --version
+      - jq --version
       - k9s version --short
       - kind --version
       - kubectl version --client
