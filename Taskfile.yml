@@ -29,6 +29,8 @@ tasks:
       - gh --version
       - git --version
       - herdr --version
+      - kind --version
+      - kubectl version --client
       - lefthook version
       - mise --version
       - nu --version
