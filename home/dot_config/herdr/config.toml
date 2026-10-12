@@ -14,6 +14,8 @@ pane_outer_borders = false
 pane_gaps = false
 # agent の状態を色だけでなく形でも区別できるようにする
 status_indicators = "symbols"
+# 完了や入力待ちの agent をサイドバーの上に表示する
+agent_panel_sort = "priority"
 
 [ui.toast]
 # バックグラウンドの agent が完了したときや入力待ちになったときに herdr 内でトーストを表示する
@@ -29,3 +31,12 @@ enabled = true
 [ui.sidebar.agents]
 # 状態アイコンの横に状態を文字でも表示する
 rows = [["state_icon", "state_text", "machine", "workspace", "tab"], ["agent"]]
+
+[update]
+# herdr は mise で管理するため、バックグラウンドの更新確認は行わない
+version_check = false
+manifest_check = false
+
+[experimental]
+# サーバーを再起動しても、ペインの画面履歴を残す
+pane_history = true
