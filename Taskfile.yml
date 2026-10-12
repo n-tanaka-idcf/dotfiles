@@ -39,6 +39,7 @@ tasks:
       - lefthook version
       - mise --version
       - nu --version
+      - nvim --version
       - rg --version
       - starship --version
       - shellcheck --version
