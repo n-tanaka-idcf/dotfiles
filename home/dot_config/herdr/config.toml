@@ -12,6 +12,8 @@ last_pane = "prefix+semicolon"
 # tmux のように外枠なし・境界線 1 本でペインを区切る
 pane_outer_borders = false
 pane_gaps = false
+# agent の状態を色だけでなく形でも区別できるようにする
+status_indicators = "symbols"
 
 [ui.toast]
 # バックグラウンドの agent が完了したときや入力待ちになったときに herdr 内でトーストを表示する
@@ -23,3 +25,7 @@ position = "top-right"
 
 [ui.sound]
 enabled = true
+
+[ui.sidebar.agents]
+# 状態アイコンの横に状態を文字でも表示する
+rows = [["state_icon", "state_text", "machine", "workspace", "tab"], ["agent"]]
