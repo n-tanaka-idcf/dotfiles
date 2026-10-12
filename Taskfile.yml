@@ -26,6 +26,7 @@ tasks:
       - chezmoi --version
       - claude --version
       - curl --version
+      - fd --version
       - fzf --version
       - gh --version
       - ghq --version
@@ -38,6 +39,7 @@ tasks:
       - lefthook version
       - mise --version
       - nu --version
+      - rg --version
       - starship --version
       - shellcheck --version
       - ssh -V
