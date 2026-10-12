@@ -27,6 +27,7 @@ $scala\
 [](fg:#86BBD8 bg:#06969A)\
 $docker_context\
 [ ](fg:#06969A)\
+$cmd_duration\
 $line_break\
 $character\
 """
@@ -154,3 +155,12 @@ format = '[ $symbol ($version) ]($style)'
 symbol = " "
 style = "bg:#86BBD8"
 format = '[ $symbol ($version) ]($style)'
+
+[cmd_duration]
+min_time = 2000
+format = '[ took $duration ]($style)'
+style = "yellow"
+
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol = '[❯](bold red)'
