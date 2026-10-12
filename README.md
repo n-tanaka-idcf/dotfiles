@@ -8,7 +8,7 @@
 .
 ├── .claude/
 │   ├── hooks/check_edited_file.sh  # 編集したファイルを規約に照らして確認する hook
-│   ├── statusline.sh         # CLI の statusline（モデル名、コンテキストの使用率、コスト）
+│   ├── statusline.sh         # CLI の statusline（モデル名、コンテキストの使用率と残り、コスト）
 │   └── settings.json         # Claude Code のプロジェクト設定（permissions, hooks, statusline）
 ├── .devcontainer/
 │   ├── .env.example          # compose.yml に渡すユーザー情報のテンプレート
