@@ -3,8 +3,8 @@
 set -euo pipefail
 
 # Claude Code の statusline。
-# モデル名、コンテキストの使用率と残り、セッションのコスト（API 料金換算の概算）、
-# 利用制限（5 時間 / 週）の使用率を表示する。
+# モデル名、コンテキストの使用率と残り、利用制限（5 時間 / 週）の使用率、
+# セッションのコスト（API 料金換算の概算）を表示する。
 # 利用制限は Pro / Max の契約時だけ渡されるため、値がなければ表示しない。
 
 IFS=$'\t' read -r model context remaining cost five_hour seven_day < <(
@@ -18,7 +18,7 @@ IFS=$'\t' read -r model context remaining cost five_hour seven_day < <(
   ] | @tsv'
 )
 
-line=$(printf '%s | ctx %d%% (残り %d%%) | $%.2f' "${model}" "${context}" "${remaining}" "${cost}")
+line=$(printf '%s | ctx %d%% (残り %d%%)' "${model}" "${context}" "${remaining}")
 
 if [[ "${five_hour}" != "-" ]]; then
   line+=$(printf ' | 5h %d%%' "${five_hour}")
@@ -26,5 +26,6 @@ fi
 if [[ "${seven_day}" != "-" ]]; then
   line+=$(printf ' | 7d %d%%' "${seven_day}")
 fi
+line+=$(printf ' | $%.2f' "${cost}")
 
 printf '%s\n' "${line}"
