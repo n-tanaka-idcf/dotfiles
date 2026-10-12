@@ -12,3 +12,14 @@ last_pane = "prefix+semicolon"
 # tmux のように外枠なし・境界線 1 本でペインを区切る
 pane_outer_borders = false
 pane_gaps = false
+
+[ui.toast]
+# バックグラウンドの agent が完了したときや入力待ちになったときに herdr 内でトーストを表示する
+delivery = "herdr"
+delay_seconds = 1
+
+[ui.toast.herdr]
+position = "top-right"
+
+[ui.sound]
+enabled = true
