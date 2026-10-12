@@ -26,9 +26,10 @@ $rust\
 $scala\
 [](fg:#86BBD8 bg:#06969A)\
 $docker_context\
-[](fg:#06969A bg:#33658A)\
-$time\
-[ ](fg:#33658A)\
+[ ](fg:#06969A)\
+$cmd_duration\
+$line_break\
+$character\
 """
 
 # Disable the blank line at the start of the prompt
@@ -99,7 +100,7 @@ style = "bg:#FCA17D"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:#FCA17D"
+style = "bg:#FCA17D fg:#B00020 bold"
 format = '[$all_status$ahead_behind ]($style)'
 
 [golang]
@@ -155,8 +156,11 @@ symbol = " "
 style = "bg:#86BBD8"
 format = '[ $symbol ($version) ]($style)'
 
-[time]
-disabled = false
-time_format = "%R" # Hour:Minute Format
-style = "bg:#33658A"
-format = '[ ♥ $time ]($style)'
+[cmd_duration]
+min_time = 2000
+format = '[ took $duration ]($style)'
+style = "yellow"
+
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol = '[❯](bold red)'
