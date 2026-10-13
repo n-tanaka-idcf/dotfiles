@@ -27,6 +27,7 @@ tasks:
       - claude --version
       - curl --version
       - fd --version
+      - fish --version
       - fzf --version
       - gh --version
       - ghq --version
