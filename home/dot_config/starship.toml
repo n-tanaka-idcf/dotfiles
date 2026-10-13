@@ -1,15 +1,15 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[](#9A348E)\
+[](fg:seg_user)\
 $os\
 $username\
-[](bg:#DA627D fg:#9A348E)\
+[](bg:seg_dir fg:seg_user)\
 $directory\
-[](fg:#DA627D bg:#FCA17D)\
+[](fg:seg_dir bg:seg_git)\
 $git_branch\
 $git_status\
-[](fg:#FCA17D bg:#86BBD8)\
+[](fg:seg_git bg:seg_lang)\
 $c\
 $elixir\
 $elm\
@@ -24,9 +24,9 @@ $bun\
 $nim\
 $rust\
 $scala\
-[](fg:#86BBD8 bg:#06969A)\
+[](fg:seg_lang bg:seg_docker)\
 $docker_context\
-[ ](fg:#06969A)\
+[ ](fg:seg_docker)\
 $cmd_duration\
 $line_break\
 $character\
@@ -38,6 +38,13 @@ palette = "custom"
 # Text color of the colored segments
 segment_fg = "#000000"
 
+# Background colors of the segments (neon)
+seg_user = "#FF2BD6"
+seg_dir = "#FF9F1C"
+seg_git = "#E4FF1A"
+seg_lang = "#39FF14"
+seg_docker = "#00F5FF"
+
 # Disable the blank line at the start of the prompt
 # add_newline = false
 
@@ -45,19 +52,19 @@ segment_fg = "#000000"
 # and use the os module below
 [username]
 show_always = true
-style_user = "bg:#9A348E fg:segment_fg"
-style_root = "bg:#9A348E fg:segment_fg"
+style_user = "bg:seg_user fg:segment_fg"
+style_root = "bg:seg_user fg:segment_fg"
 format = '[$user ]($style)'
 disabled = false
 
 # An alternative to the username module which displays a symbol that
 # represents the current operating system
 [os]
-style = "bg:#9A348E fg:segment_fg"
+style = "bg:seg_user fg:segment_fg"
 disabled = true # Disabled by default
 
 [directory]
-style = "bg:#DA627D fg:segment_fg"
+style = "bg:seg_dir fg:segment_fg"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -77,89 +84,89 @@ truncation_symbol = "…/"
 
 [c]
 symbol = " "
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [cpp]
 symbol = " "
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [docker_context]
 symbol = " "
-style = "bg:#06969A fg:segment_fg"
+style = "bg:seg_docker fg:segment_fg"
 format = '[ $symbol $context ]($style)'
 
 [elixir]
 symbol = " "
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [elm]
 symbol = " "
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
 symbol = ""
-style = "bg:#FCA17D fg:segment_fg"
+style = "bg:seg_git fg:segment_fg"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:#FCA17D fg:#B00020 bold"
+style = "bg:seg_git fg:#B00020 bold"
 format = '[$all_status$ahead_behind ]($style)'
 
 [golang]
 symbol = " "
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [gradle]
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [haskell]
 symbol = " "
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [java]
 symbol = " "
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [julia]
 symbol = " "
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [maven]
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [nodejs]
 symbol = ""
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [bun]
 symbol = ""
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [nim]
 symbol = "󰆥 "
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [rust]
 symbol = ""
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [scala]
 symbol = " "
-style = "bg:#86BBD8 fg:segment_fg"
+style = "bg:seg_lang fg:segment_fg"
 format = '[ $symbol ($version) ]($style)'
 
 [cmd_duration]
