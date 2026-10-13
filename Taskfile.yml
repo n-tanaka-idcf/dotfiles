@@ -32,6 +32,7 @@ tasks:
       - ghq --version
       - git --version
       - herdr --version
+      - hx --version
       - jq --version
       - k9s version --short
       - kind --version
