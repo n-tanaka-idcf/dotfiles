@@ -4,6 +4,7 @@
 carapace = "latest"
 claude = "latest"
 fd = "latest"
+"github:fish-shell/fish-shell" = "latest"
 fzf = "latest"
 gh = "latest"
 ghq = "latest"
