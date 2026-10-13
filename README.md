@@ -27,7 +27,7 @@
 │   ├── dot_config/herdr/config.toml                   # herdr の設定
 │   ├── dot_config/mise/config.toml                    # mise でインストールするツール
 │   ├── dot_config/nushell/                            # nushell の設定（env.nu, config.nu, scripts/）
-│   ├── dot_config/starship.toml                       # starship の設定（Pastel Powerline プリセット）
+│   ├── dot_config/starship.toml                       # starship の設定（蛍光色の Powerline）
 │   ├── dot_config/tuios/config.d/dotfiles.toml        # tuios の設定（~/.config/tuios/config.toml が優先）
 │   ├── modify_dot_bashrc                              # ~/.bashrc の末尾に mise の有効化を追記
 │   ├── run_onchange_initial_setup.sh                  # OS パッケージと mise のインストール
@@ -65,7 +65,7 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply n-tanaka-id
 - ベースイメージ: `ubuntu:24.04`（TZ は `Asia/Tokyo`）
 - Features: docker-outside-of-docker, hadolint
 - VS Code 拡張: Claude Code, Docker, GitHub Actions, シェルスクリプト、TOML、YAML 用の拡張
-- ターミナルのフォント: `Monaspace Neon NF`。starship の Pastel Powerline プリセットは Nerd Font の記号を使うため、ホスト側に [Monaspace](https://github.com/githubnext/monaspace) の Nerd Font 版をインストールしておく必要があります。
+- ターミナルのフォント: `Monaspace Neon NF`。starship の設定（Pastel Powerline プリセットがベース）は Nerd Font の記号を使うため、ホスト側に [Monaspace](https://github.com/githubnext/monaspace) の Nerd Font 版をインストールしておく必要があります。
 - コンテナ作成時（`onCreateCommand`）に `install.sh` が chezmoi で `home/` の dotfiles を適用します。このとき OS パッケージ（curl, git, openssh-client）、mise、mise で管理するツール（atuin, carapace, claude, fd, fzf, gh, ghq, herdr, jq, k9s, kind, kubectl, lefthook, neovim, nushell, ripgrep, shellcheck, starship, task, tuios, zoxide）がインストールされます。リポジトリのパスは `~/.config/chezmoi/chezmoi.toml` に記録されるため、以降は `chezmoi apply` だけで再適用できます。
 - Claude Code と GitHub CLI の設定、atuin のシェル履歴は名前付きボリューム `misc` の `/misc/claude`、`/misc/gh`、`/misc/atuin` に保存されるため、コンテナを再作成しても保持されます。
 
