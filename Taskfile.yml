@@ -26,6 +26,7 @@ tasks:
       - chezmoi --version
       - claude --version
       - curl --version
+      - devcontainer --version
       - fd --version
       - fish --version
       - fzf --version
@@ -40,6 +41,7 @@ tasks:
       - kubectl version --client
       - lefthook version
       - mise --version
+      - node --version
       - nu --version
       - nvim --version
       - rg --version
