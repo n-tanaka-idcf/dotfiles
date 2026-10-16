@@ -12,9 +12,11 @@ manage_os_packages() {
     sudo apt-get update
     sudo apt-get upgrade -y
 
+    # libatomic1 is required by node installed with mise
     packages=(
       curl
       git
+      libatomic1
       openssh-client
     )
 
@@ -27,8 +29,10 @@ manage_os_packages() {
     sudo dnf upgrade -y
 
     # tar is required to extract the mise archive
+    # libatomic is required by node installed with mise
     packages=(
       git
+      libatomic
       openssh-clients
       tar
     )
