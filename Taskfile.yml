@@ -13,6 +13,12 @@ tasks:
     cmds:
       - chezmoi diff {{.CLI_ARGS}}
 
+  hunk:skill:
+    desc: hunk 同梱の hunk-review スキルを .claude/skills にコピーします（hunk を更新したら実行）。
+    cmds:
+      - mkdir -p .claude/skills/hunk-review
+      - cp "$(hunk skill path)" .claude/skills/hunk-review/SKILL.md
+
   chezmoi:apply:
     desc: chezmoi で dotfiles をホームディレクトリに適用します。
     cmds:

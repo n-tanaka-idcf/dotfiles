@@ -29,6 +29,7 @@
   - `run_onchange_after_reset_nushell_autoload.sh.tmpl`: nushell の vendor autoload ディレクトリにキャッシュした初期化スクリプト（`dot_config/nushell/scripts/*.nu` と同じ名前のファイル）を削除し、次の起動で作り直させる。mise の設定と nushell の scripts のハッシュを埋め込んでいるため、どちらかが変わると再実行される。
 - `lefthook.yml`: lefthook の Git フック設定。pre-commit でステージしたシェルスクリプト（`*.sh`, `*.sh.tmpl`）に shellcheck を実行する。フックは `postCreateCommand.sh` の `lefthook install` でインストールされる。
 - `.claude/settings.json`: Claude Code のプロジェクト設定。`language` で回答を日本語にする。`permissions` で検証用コマンドを許可し、秘密情報（`.devcontainer/.env`、認証情報）の読み取りを禁止する。`hooks` で、Edit / Write のあとに `.claude/hooks/check_edited_file.sh` を実行し、リポジトリ内の編集したファイルを確認する（シェルスクリプトの shellcheck、行末の空白、末尾の改行）。問題があれば exit 2 で Claude に伝える。`statusLine` で `.claude/statusline.sh` を実行し、CLI にモデル名、コンテキストの使用率と残り、利用制限（5 時間 / 週）の使用率（Pro / Max の契約時のみ）、セッションのコスト（概算）を表示する。どちらも jq が必要。
+- `.claude/skills/hunk-review/SKILL.md`: hunk 同梱の hunk-review スキルのコピー。Claude が `hunk session` で稼働中の hunk のセッションを操作できるようにする。hunk のインストール先はバージョンごとに変わるためリンクではなくコピーを置き、`hunk` を更新したら `task hunk:skill` で更新する。`settings.json` の `permissions` で `hunk session *` を許可している。
 - `Taskfile.yml`: task コマンドのタスク定義。`environment:check` で必要なツールが利用可能か確認する（両方の CI で実行）。
 
 ## 規約
