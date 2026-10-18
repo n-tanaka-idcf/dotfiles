@@ -90,7 +90,7 @@ task chezmoi:apply      # dotfiles をホームディレクトリに適用
 task environment:check  # 必要なツールが利用可能か確認
 ```
 
-hunk を使った差分のレビューを Claude に手伝わせるには、別のターミナルで `hunk diff` または `hunk show` を開き、Claude に hunk-review スキルを使うよう頼みます（スキルは [.claude/skills/hunk-review](.claude/skills/hunk-review) にあり、hunk の更新後は `task hunk:skill` で更新します）。hunk 上で `a` キーを押すと Claude のノートが表示されます。
+hunk を使った差分のレビューを Claude に手伝わせるには、別のターミナルで `hunk diff` または `hunk show` を開き、Claude に hunk-review スキルを使うよう頼みます（スキルは [.claude/skills/hunk-review](.claude/skills/hunk-review) にあり、hunk の更新後は `task hunk:skill` で更新します）。Claude のノートは起動時から表示され（`agent_notes`）、差分は自動で再読み込みされます（`watch`）。ノートの表示は `a` キーで切り替えられます。
 
 `task` を使うにはシェルで mise を有効化する必要があります（bash と nushell では対話シェルの起動時に自動で有効化されます）。有効化していない場合は `mise exec -- task` で実行します。nushell では `task` のタスク名やフラグを Tab で補完できます。そのほかのコマンドも [carapace](https://carapace.sh/) で補完できます。
 

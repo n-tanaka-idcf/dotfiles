@@ -1,3 +1,7 @@
 # chezmoi で管理する hunk の設定。
 theme = "auto"
 mode = "auto"
+# 差分の元が変わったら自動で再読み込みする。
+watch = true
+# Claude のノートを起動時から表示する。
+agent_notes = true
