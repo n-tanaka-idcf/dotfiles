@@ -3,4 +3,5 @@
 alias c = claude
 alias e = nvim
 alias g = git
+alias h = hunk
 alias k = kubectl

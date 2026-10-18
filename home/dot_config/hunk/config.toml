@@ -1,0 +1,3 @@
+# chezmoi で管理する hunk の設定。
+theme = "auto"
+mode = "auto"
