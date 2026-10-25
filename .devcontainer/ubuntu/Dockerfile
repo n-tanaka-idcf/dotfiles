@@ -19,7 +19,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN groupadd --gid ${GID} ${GROUP} && \
+# Remove the default 'ubuntu' user (UID/GID 1000) to avoid conflicts
+RUN if id -u ubuntu >/dev/null 2>&1; then userdel --remove ubuntu; fi && \
+    groupadd --gid ${GID} ${GROUP} && \
     useradd --uid ${UID} --gid ${GID} --shell /bin/bash --create-home ${USER} && \
     echo "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
