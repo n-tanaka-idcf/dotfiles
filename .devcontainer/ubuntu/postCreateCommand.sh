@@ -2,4 +2,15 @@
 
 set -euo pipefail
 
-echo "Do something in post devcontainer creation"
+# Set up misc dir
+target_dir="/misc"
+sudo chown "$(id -un):$(id -gn)" "$target_dir"
+
+target_sub_dirs=(
+  "claude"
+)
+
+for dir in "${target_sub_dirs[@]}"; do
+  echo "Creating sub directory: ${target_dir}/${dir}"
+  mkdir -p "${target_dir}/${dir}"
+done

@@ -8,12 +8,20 @@
     "ubuntu"
   ],
   "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/misc/claude",
     "DEVCONTAINER_NAME": "ubuntu"
   },
   "remoteEnv": {
     "PATH": "/home/${containerEnv:USER}/.local/bin:${containerEnv:PATH}"
   },
   "workspaceFolder": "/workspace",
+  "mounts": [
+    {
+      "type": "volume",
+      "source": "misc",
+      "target": "/misc"
+    }
+  ],
   "onCreateCommand": "${containerWorkspaceFolder}/install.sh",
   "postCreateCommand": "${containerWorkspaceFolder}/.devcontainer/$DEVCONTAINER_NAME/postCreateCommand.sh",
   "features": {
