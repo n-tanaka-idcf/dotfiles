@@ -1,0 +1,65 @@
+{
+  "name": "ubuntu",
+  "dockerComposeFile": [
+    "../compose.yml"
+  ],
+  "service": "ubuntu",
+  "runServices": [
+    "ubuntu"
+  ],
+  "containerEnv": {
+    "DEVCONTAINER_NAME": "ubuntu"
+  },
+  "remoteEnv": {
+    "PATH": "/home/${containerEnv:USER}/.local/bin:${containerEnv:PATH}"
+  },
+  "workspaceFolder": "/workspace",
+  "onCreateCommand": "${containerWorkspaceFolder}/install.sh",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+    "ghcr.io/dhoeric/features/hadolint:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // Editor
+        "editor.formatOnSave": true,
+        // Files
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "files.trimTrailingWhitespace": true,
+        // Github Actions
+        "[github-actions-workflow]": {
+          "editor.tabSize": 2,
+          "editor.defaultFormatter": "redhat.vscode-yaml"
+        },
+        // Redhat
+        "redhat.telemetry.enabled": false,
+        // Shell script
+        "[shellscript]": {
+          "editor.defaultFormatter": "foxundermoon.shell-format"
+        },
+        // Terminal
+        "terminal.integrated.fontFamily": "'Monaspace Neon NF', monospace",
+        // YAML
+        "[yaml]": {
+          "editor.tabSize": 2,
+          "editor.defaultFormatter": "redhat.vscode-yaml"
+        }
+      },
+      "extensions": [
+        // Docker
+        "ms-azuretools.vscode-docker",
+        "exiasr.hadolint",
+        // Github actions
+        "github.vscode-github-actions",
+        // Shell script
+        "foxundermoon.shell-format",
+        "mads-hartmann.bash-ide-vscode",
+        "timonwong.shellcheck",
+        // YAML
+        "redhat.vscode-yaml"
+      ]
+    }
+  }
+}
