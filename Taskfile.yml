@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+---
+version: "3"
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list-all --sort none
+
+  chezmoi:diff:
+    desc: Show pending dotfile changes with chezmoi
+    cmds:
+      - chezmoi diff {{.CLI_ARGS}}
+
+  chezmoi:apply:
+    desc: Apply dotfiles with chezmoi
+    cmds:
+      - chezmoi apply {{.CLI_ARGS}}
+
+  environment:check:
+    desc: Check required tools are available
+    cmds:
+      - chezmoi --version
+      - claude --version
+      - curl --version
+      - git --version
+      - mise --version
+      - ssh -V
+      - task --version
