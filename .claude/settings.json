@@ -2,5 +2,19 @@
   "statusLine": {
     "type": "command",
     "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/statusline.sh\""
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "b=$(git -C \"${CLAUDE_PROJECT_DIR:-.}\" branch --show-current 2>/dev/null); case \"$b\" in main|master) echo \"現在 $b ブランチです。ファイルを修正する前に、kebab-case（prefix なし、例: add-foo-config）の作業用ブランチを作成してください: git switch -c <branch-name>\" >&2; exit 2;; esac",
+            "statusMessage": "Checking current branch..."
+          }
+        ]
+      }
+    ]
   }
 }
