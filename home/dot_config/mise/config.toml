@@ -2,3 +2,4 @@
 claude = "latest"
 task = "latest"
 gh = "latest"
+jq = "latest"
