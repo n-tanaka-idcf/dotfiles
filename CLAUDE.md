@@ -27,11 +27,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## AI 向けドキュメント
 
-`docs/ai/` 配下のファイルは Claude Code の振る舞いに関する指示で、以下でインポートしている。
+`docs/ai/` 配下のファイルは Claude Code の振る舞いを定める指示。以下でインポートしており、常に読み込んで従う。
 
 - @docs/ai/confirm-first-pair-programmer.md — 確認を多めに取りながら進めるペアプロの進め方（質問で合意形成してから実装する）
+
+ただし、ユーザーが対象と操作を明示した依頼（例:「CLAUDE.md をコミットして」「この箇所をこう直して」）は、その時点で「GO」の合図とみなす。Phase 0〜2 の質問や計画の提示は省略して実行してよい。質問や承認を求めるのは、依頼に曖昧さや分岐がある場合と、不可逆・高リスクな操作（push、履歴の書き換え、環境の変更など）が必要な場合に限る。
 
 ## 規約
 
 - コミットは `git commit` を直接実行せず、プロジェクトスキル `git-commit`（`.claude/skills/git-commit`）を使う。Conventional Commits 形式のメッセージが作られる。
-- `home/` 配下のテンプレートのコメントは日本語で書かれているため、周囲のファイルの言語に合わせる。
+- `home/` 配下のコメントの言語はファイルごとに異なる（`modify_dot_bashrc` は日本語、`run_onchange_*` は英語）。編集するファイルの言語に合わせる。
