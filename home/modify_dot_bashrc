@@ -1,0 +1,26 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /*
+  ~/.bashrc 全体は管理せず、マーカーで囲んだ mise のブロックだけを末尾に追記する。
+  既存のブロックは取り除いてから追記し直すため、何度 apply しても重複しない。
+  ~/.bashrc がない場合は Ubuntu の既定（/etc/skel/.bashrc）をベースにする。
+*/ -}}
+{{- $begin := "# >>> mise (managed by chezmoi) >>>" -}}
+{{- $end := "# <<< mise (managed by chezmoi) <<<" -}}
+{{- $current := .chezmoi.stdin -}}
+{{- if and (eq $current "") (stat "/etc/skel/.bashrc") -}}
+{{-   $current = include "/etc/skel/.bashrc" -}}
+{{- end -}}
+{{- $pattern := printf `(?s)\n*%s.*?%s\n?` (regexQuoteMeta $begin) (regexQuoteMeta $end) -}}
+{{- $current = regexReplaceAll $pattern $current "\n" | trimSuffix "\n" -}}
+{{- if ne $current "" }}{{ $current }}
+
+{{ end -}}
+{{ $begin }}
+# mise を有効化し、ディレクトリごとのツールや環境変数の切り替えを行う。
+# ログインシェルでない場合は ~/.local/bin が PATH にないため、直接パスを指定する。
+if command -v mise >/dev/null 2>&1; then
+    eval "$(mise activate bash)"
+elif [ -x "$HOME/.local/bin/mise" ]; then
+    eval "$("$HOME/.local/bin/mise" activate bash)"
+fi
+{{ $end }}
