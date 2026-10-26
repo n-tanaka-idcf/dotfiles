@@ -25,6 +25,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Devcontainer**（`.devcontainer/`）: compose ベース。`.devcontainer/.env` が必要（`.env.example` をコピーし、ユーザー名・UID・GID をホストに合わせる）。`misc` ボリュームを `/misc` にマウントし、`CLAUDE_CONFIG_DIR=/misc/claude` と `GH_CONFIG_DIR=/misc/gh` をそこに向けることで、再ビルドしても Claude と gh の設定が残る。これらのディレクトリは `postCreateCommand.sh` が作成する。
 - **CI**（`.github/workflows/run_devcontainer_ci.yaml`）: devcontainer をビルドして `task environment:check` を実行する。トリガーは `.devcontainer/`、`home/`、`.chezmoiroot`、`install.sh`、`Taskfile.yml`、ワークフロー自身の変更時のみ。Action は commit SHA で固定している。
 
+## AI 向けドキュメント
+
+`docs/ai/` 配下のファイルは Claude Code の振る舞いに関する指示で、以下でインポートしている。
+
+- @docs/ai/confirm-first-pair-programmer.md — 確認を多めに取りながら進めるペアプロの進め方（質問で合意形成してから実装する）
+
 ## 規約
 
 - コミットは `git commit` を直接実行せず、プロジェクトスキル `git-commit`（`.claude/skills/git-commit`）を使う。Conventional Commits 形式のメッセージが作られる。
