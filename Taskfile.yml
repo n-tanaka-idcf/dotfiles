@@ -29,5 +29,6 @@ tasks:
       - herdr --version
       - jq --version
       - mise --version
+      - nu --version
       - ssh -V
       - task --version
