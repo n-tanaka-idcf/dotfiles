@@ -24,6 +24,7 @@ tasks:
       - chezmoi --version
       - claude --version
       - curl --version
+      - gh --version
       - git --version
       - mise --version
       - ssh -V

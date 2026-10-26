@@ -9,7 +9,8 @@
   ],
   "containerEnv": {
     "CLAUDE_CONFIG_DIR": "/misc/claude",
-    "DEVCONTAINER_NAME": "ubuntu"
+    "DEVCONTAINER_NAME": "ubuntu",
+    "GH_CONFIG_DIR": "/misc/gh"
   },
   "remoteEnv": {
     "PATH": "/home/${containerEnv:USER}/.local/bin:${containerEnv:PATH}"

@@ -1,3 +1,4 @@
 [tools]
 claude = "latest"
 task = "latest"
+gh = "latest"
