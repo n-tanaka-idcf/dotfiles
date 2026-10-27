@@ -22,10 +22,11 @@ def fzf-history-widget [] {
     }
 }
 
-# Pick files with fd and insert them at the cursor, quoting paths with spaces.
-def fzf-file-widget [] {
+# Pick paths of the given fd type (f or d) and insert them at the cursor,
+# quoting paths with spaces.
+def fzf-path-widget [type: string] {
     # Judge success by fzf alone: fd may get SIGPIPE once fzf exits.
-    let result = (^fd --type f --hidden --exclude .git | fzf --multi | complete)
+    let result = (^fd --type $type --hidden --exclude .git | fzf --multi | complete)
     let selected = if $result.exit_code == 0 { $result.stdout | lines } else { [] }
     if ($selected | is-not-empty) {
         let paths = ($selected | each {|path| if ($path =~ '\s') { $"`($path)`" } else { $path } })
@@ -33,13 +34,17 @@ def fzf-file-widget [] {
     }
 }
 
-# Emulate the Ctrl+X, Ctrl+F chord: reedline has no multi-key bindings, so
-# Ctrl+X runs this and reads the next key. Alt is avoided because macOS
-# terminals turn Option+F into a character instead of sending Alt+F.
+# Emulate the Ctrl+X, Ctrl+F (file) and Ctrl+X, Ctrl+D (directory) chords:
+# reedline has no multi-key bindings, so Ctrl+X runs this and reads the next
+# key. Alt is avoided because macOS terminals turn Option+F into a character
+# instead of sending Alt+F.
 def fzf-chord-widget [] {
     let key = (input listen --types [key])
-    if $key.code == "f" and ($key.modifiers | to nuon) =~ "(?i)control" {
-        fzf-file-widget
+    if ($key.modifiers | to nuon) =~ "(?i)control" {
+        match $key.code {
+            "f" => { fzf-path-widget f }
+            "d" => { fzf-path-widget d }
+        }
     }
 }
 
