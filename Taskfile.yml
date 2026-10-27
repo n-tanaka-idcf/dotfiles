@@ -24,6 +24,7 @@ tasks:
       - chezmoi --version
       - claude --version
       - curl --version
+      - fzf --version
       - gh --version
       - git --version
       - herdr --version
