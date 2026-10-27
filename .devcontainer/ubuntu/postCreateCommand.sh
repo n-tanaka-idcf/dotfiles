@@ -7,6 +7,7 @@ target_dir="/misc"
 sudo chown "$(id -un):$(id -gn)" "$target_dir"
 
 target_sub_dirs=(
+  "atuin"
   "claude"
   "gh"
 )

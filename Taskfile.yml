@@ -22,6 +22,7 @@ tasks:
     desc: Check required tools are available
     cmds:
       - chezmoi --version
+      - atuin --version
       - claude --version
       - curl --version
       - fd --version
