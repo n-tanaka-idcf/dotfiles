@@ -33,6 +33,16 @@ def fzf-file-widget [] {
     }
 }
 
+# Emulate the Ctrl+X, Ctrl+F chord: reedline has no multi-key bindings, so
+# Ctrl+X runs this and reads the next key. Alt is avoided because macOS
+# terminals turn Option+F into a character instead of sending Alt+F.
+def fzf-chord-widget [] {
+    let key = (input listen --types [key])
+    if $key.code == "f" and ($key.modifiers | to nuon) =~ "(?i)control" {
+        fzf-file-widget
+    }
+}
+
 # Append, never assign, so bindings from config.nu and other files are kept.
 $env.config.keybindings = (
     $env.config.keybindings
@@ -45,11 +55,11 @@ $env.config.keybindings = (
             event: { send: executehostcommand, cmd: "fzf-history-widget" }
         }
         {
-            name: fzf_file
-            modifier: alt
-            keycode: char_f
+            name: fzf_chord
+            modifier: control
+            keycode: char_x
             mode: [emacs vi_insert vi_normal]
-            event: { send: executehostcommand, cmd: "fzf-file-widget" }
+            event: { send: executehostcommand, cmd: "fzf-chord-widget" }
         }
     ]
 )
