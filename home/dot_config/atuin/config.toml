@@ -1,0 +1,12 @@
+auto_sync = false
+update_check = false
+
+style = "compact"
+inline_height = 20
+invert = true
+
+search_mode = "daemon-fuzzy"
+
+[daemon]
+enabled = true
+autostart = true

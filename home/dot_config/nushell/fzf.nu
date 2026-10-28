@@ -1,26 +1,9 @@
 # fzf integration. Sourced from config.nu.
 # nushell has no `fzf --nu`, so the environment and keybindings are defined here.
+# History search (Ctrl+R) is handled by atuin, see atuin.nu.
 
 $env.FZF_DEFAULT_OPTS = "--height 40% --layout=reverse --border"
 $env.FZF_DEFAULT_COMMAND = "fd --type f --hidden --exclude .git"
-
-# Search history and replace the command line with the selection.
-def fzf-history-widget [] {
-    # fzf exits non-zero when cancelled, so only accept the selection on success.
-    let result = (
-        history
-        | get command
-        | reverse
-        | uniq
-        | str join (char nl)
-        | fzf --scheme=history --query (commandline)
-        | complete
-    )
-    let selected = if $result.exit_code == 0 { $result.stdout | str trim } else { "" }
-    if ($selected | is-not-empty) {
-        commandline edit --replace $selected
-    }
-}
 
 # Pick paths of the given fd type (f or d) and insert them at the cursor,
 # quoting paths with spaces.
@@ -52,13 +35,6 @@ def fzf-chord-widget [] {
 $env.config.keybindings = (
     $env.config.keybindings
     | append [
-        {
-            name: fzf_history
-            modifier: control
-            keycode: char_r
-            mode: [emacs vi_insert vi_normal]
-            event: { send: executehostcommand, cmd: "fzf-history-widget" }
-        }
         {
             name: fzf_chord
             modifier: control
